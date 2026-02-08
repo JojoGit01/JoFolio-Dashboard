@@ -12,3 +12,7 @@ Formation :
 
 Centres d'interets 
     - Faire en sorte d'avoir la moto ect et d'avoir une animation carrement pour chaque centre d'interet
+
+
+
+Projets : Un explorer de Projets et sa open un explo avec le projet qu'on peut fermer bouger ect
