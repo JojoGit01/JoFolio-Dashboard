@@ -1,0 +1,36 @@
+{
+  "background": {
+    "main": "#0B1220",
+    "secondary": "#0F1B2E",
+    "sidebar": "#111E34",
+    "card": "#16263F"
+  },
+  "surfaces": {
+    "cardBorder": "#223A5E",
+    "cardHover": "#1C3154",
+    "divider": "#1B2A44"
+  },
+  "primary": {
+    "main": "#2F6BFF",
+    "hover": "#3C7BFF",
+    "glow": "#4EA1FF"
+  },
+  "accent": {
+    "violet": "#7C5CFF",
+    "violetGlow": "#9B7CFF"
+  },
+  "text": {
+    "primary": "#E6EDF7",
+    "secondary": "#9FB3D1",
+    "muted": "#6E85A6"
+  },
+  "gradients": {
+    "heroCard": "linear-gradient(135deg, #16263F 0%, #1B2E4D 100%)",
+    "buttonPrimary": "linear-gradient(135deg, #2F6BFF 0%, #4EA1FF 100%)",
+    "glowMix": "linear-gradient(90deg, #2F6BFF, #7C5CFF)"
+  },
+  "shadows": {
+    "blueGlow": "0 10px 30px rgba(47,107,255,0.15)",
+    "violetGlow": "0 0 20px rgba(124,92,255,0.25)"
+  }
+}
