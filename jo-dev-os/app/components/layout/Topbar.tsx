@@ -9,7 +9,7 @@ export default function Topbar() {
         {/* Texte gauche */}
         <div>
           <div className="text-xl font-semibold text-[#E6EDF7]">Bonjour 👋</div>
-          <div className="text-sm text-[#9FB3D1]">Bienvenue dans mon espace développeur</div>
+          <div className="text-sm text-[#9FB3D1]">Bienvenue dans mon espace temps</div>
         </div>
 
         {/* Actions droite */}
