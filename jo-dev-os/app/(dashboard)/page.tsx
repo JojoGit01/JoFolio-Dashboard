@@ -51,7 +51,7 @@ export default function HomePage() {
       />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.45)_62%,rgba(0,0,0,0.85)_100%)]" />
 
-      <div className="grid grid-cols-14 gap-10">
+      <div className="grid grid-cols-12 gap-6 lg:gap-10">
         <HomeLeft active={active} setActive={setActive} />
         <HomeRight active={active} setActive={setActive} />
       </div>

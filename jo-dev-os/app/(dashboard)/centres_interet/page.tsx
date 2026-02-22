@@ -148,7 +148,7 @@ export default function CentresInteretPage() {
       <div className="pointer-events-none absolute inset-0 -z-10 rounded-[24px] bg-[radial-gradient(circle_at_16%_12%,rgba(95,220,255,0.16),transparent_28%),radial-gradient(circle_at_78%_20%,rgba(255,196,109,0.12),transparent_30%),radial-gradient(circle_at_62%_70%,rgba(170,135,255,0.14),transparent_35%),linear-gradient(180deg,rgba(6,12,24,0.96),rgba(4,8,16,0.99))]" />
       <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.14] [background-image:radial-gradient(white_1px,transparent_1px)] [background-size:3px_3px]" />
 
-      <motion.div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <motion.div className="grid grid-cols-2 gap-2 sm:gap-3 md:grid-cols-2 xl:grid-cols-4">
         {TOP_CARDS.map((card, idx) => {
           const a = ACCENT[card.accent];
           return (
@@ -159,7 +159,7 @@ export default function CentresInteretPage() {
               transition={{ duration: 0.28, delay: idx * 0.05, ease: "easeOut" }}
               whileHover={reduceMotion ? undefined : { y: -3, scale: 1.005 }}
               className={[
-                "group relative overflow-hidden rounded-[20px] border bg-[#071124]/86 backdrop-blur-xl",
+                "group relative overflow-hidden rounded-[18px] border bg-[#071124]/86 backdrop-blur-xl sm:rounded-[20px]",
                 "transition-all duration-300 will-change-transform hover:-translate-y-0.5 hover:shadow-[0_14px_34px_rgba(0,0,0,0.48)]",
                 a.border,
               ].join(" ")}
@@ -170,7 +170,7 @@ export default function CentresInteretPage() {
               <div
                 className={[
                   "relative overflow-hidden rounded-[14px] border border-white/12",
-                  "h-36 rounded-t-[20px]",
+                  "h-32 rounded-t-[18px] sm:h-36 sm:rounded-t-[20px]",
                 ].join(" ")}
                 style={{
                   backgroundImage: `linear-gradient(180deg, rgba(7,18,36,0.10), rgba(7,18,36,0.68)), url('${card.image}')`,
@@ -191,8 +191,8 @@ export default function CentresInteretPage() {
                 </div>
               </div>
 
-              <div className="px-3 pb-3 pt-2">
-                <p className="text-xl font-semibold text-white/92">{card.meta}</p>
+              <div className="px-2.5 pb-2.5 pt-2 sm:px-3 sm:pb-3">
+                <p className="text-sm font-semibold text-white/92 sm:text-xl">{card.meta}</p>
 
                 <div className="relative mt-2 h-[4px] overflow-hidden rounded-full bg-white/12">
                   <div className={["h-full rounded-full bg-gradient-to-r", a.line, card.id === "code" ? "w-[58%]" : "w-[62%]"].join(" ")} />
@@ -200,33 +200,35 @@ export default function CentresInteretPage() {
                 </div>
 
                 {card.id === "code" && card.rows ? (
-                  <ul className="mt-3 space-y-1.5 text-sm text-white/78">
-                    {card.rows.map((row) => (
+                  <ul className="mt-2 space-y-1 text-[11px] text-white/78 sm:mt-3 sm:space-y-1.5 sm:text-sm">
+                    {card.rows.map((row, idx) => (
                       <li key={row} className="flex items-center gap-2">
+                        <span className={idx > 1 ? "hidden sm:inline-flex" : "inline-flex"}>
                         <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
-                        <span>{row}</span>
+                        </span>
+                        <span className={idx > 1 ? "hidden sm:inline" : "inline"}>{row}</span>
                       </li>
                     ))}
                   </ul>
                 ) : card.id === "moto" ? (
                   <>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {card.chips.map((chip) => (
-                        <span key={chip} className={["rounded-xl border px-2.5 py-1 text-xs", a.chip].join(" ")}>
+                    <div className="mt-2 flex flex-wrap gap-1.5 sm:mt-3 sm:gap-2">
+                      {card.chips.map((chip, idx) => (
+                        <span key={chip} className={["rounded-xl border px-2 py-1 text-[11px] sm:px-2.5 sm:text-xs", a.chip, idx > 1 ? "hidden sm:inline-flex" : "inline-flex"].join(" ")}>
                           {chip}
                         </span>
                       ))}
                     </div>
-                    <div className="mt-2 grid grid-cols-4 gap-1.5">
+                    <div className="mt-2 hidden grid-cols-4 gap-1.5 sm:grid">
                       {Array.from({ length: 4 }).map((_, i) => (
                         <div key={i} className="h-9 rounded-lg border border-white/14 bg-[linear-gradient(130deg,rgba(84,126,186,0.92),rgba(36,52,88,0.88))]" />
                       ))}
                     </div>
                   </>
                 ) : card.id === "muscu" ? (
-                  <div className="mt-3 grid grid-cols-2 gap-2">
+                  <div className="mt-2 grid grid-cols-2 gap-1.5 sm:mt-3 sm:gap-2">
                     {card.chips.map((chip, idx) => (
-                      <div key={chip} className={["rounded-xl border px-2.5 py-1.5 text-xs", a.chip].join(" ")}>
+                      <div key={chip} className={["rounded-xl border px-2 py-1 text-[11px] sm:px-2.5 sm:py-1.5 sm:text-xs", a.chip, idx > 3 ? "hidden sm:block" : "block"].join(" ")}>
                         <p>{chip}</p>
                         {idx < 4 && (
                           <div className="mt-1.5 h-[3px] overflow-hidden rounded-full bg-white/12">
@@ -238,14 +240,14 @@ export default function CentresInteretPage() {
                   </div>
                 ) : card.id === "chill" ? (
                   <>
-                    <div className="mt-3 grid grid-cols-4 gap-2">
-                      {card.chips.map((chip) => (
-                        <div key={chip} className={["rounded-xl border px-2 py-1.5 text-center text-xs", a.chip].join(" ")}>
+                    <div className="mt-2 grid grid-cols-2 gap-1.5 sm:mt-3 sm:grid-cols-4 sm:gap-2">
+                      {card.chips.map((chip, idx) => (
+                        <div key={chip} className={["rounded-xl border px-2 py-1.5 text-center text-[11px] sm:text-xs", a.chip, idx > 1 ? "hidden sm:block" : "block"].join(" ")}>
                           {chip}
                         </div>
                       ))}
                     </div>
-                    <div className="mt-2 rounded-xl border border-violet-300/22 bg-violet-300/8 px-2.5 py-1.5 text-center text-sm italic text-violet-100/90">
+                    <div className="mt-2 rounded-xl border border-violet-300/22 bg-violet-300/8 px-2.5 py-1.5 text-center text-xs italic text-violet-100/90 sm:text-sm">
                       Work hard, rest harder.
                     </div>
                   </>
@@ -292,8 +294,7 @@ export default function CentresInteretPage() {
           initial={reduceMotion ? false : { y: 8 }}
           animate={reduceMotion ? undefined : { y: 0 }}
           transition={{ duration: 0.26, delay: 0.12, ease: "easeOut" }}
-          className="group col-span-12 lg:col-span-3 self-start h-fit relative overflow-hidden rounded-[20px] border border-cyan-300/28 bg-[linear-gradient(165deg,rgba(10,24,46,0.96),rgba(7,16,34,0.94))] p-3.5 backdrop-blur-xl shadow-[0_12px_44px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_42px_rgba(0,0,0,0.52)]"
-          style={{ clipPath: "polygon(0 0, 90% 0, 100% 16%, 100% 100%, 0 100%)" }}
+          className="group col-span-12 lg:col-span-3 self-start h-fit relative overflow-hidden rounded-[20px] border border-cyan-300/28 bg-[linear-gradient(165deg,rgba(10,24,46,0.96),rgba(7,16,34,0.94))] p-3.5 backdrop-blur-xl shadow-[0_12px_44px_rgba(0,0,0,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_42px_rgba(0,0,0,0.52)] sm:[clip-path:polygon(0_0,90%_0,100%_16%,100%_100%,0_100%)]"
         >
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_88%_8%,rgba(114,205,255,0.22),transparent_42%)]" />
           <div className="pointer-events-none absolute -bottom-1 right-6 h-[3px] w-16 rounded-full bg-amber-300/90 blur-[0.4px]" />
@@ -309,10 +310,10 @@ export default function CentresInteretPage() {
             <Activity size={14} className="text-cyan-200/90" />
           </div>
 
-          <div className="mt-3 grid grid-cols-[92px_1fr] items-center gap-3">
+          <div className="mt-3 grid grid-cols-[86px_1fr] items-center gap-3 sm:grid-cols-[92px_1fr]">
             <motion.div
               whileHover={reduceMotion ? undefined : { scale: 1.02 }}
-              className="relative h-[92px] w-[92px] rounded-full border border-cyan-200/25 p-[6px] shadow-[0_0_26px_rgba(90,218,255,0.28)] transition-transform duration-500 group-hover:scale-105"
+              className="relative h-[86px] w-[86px] rounded-full border border-cyan-200/25 p-[6px] shadow-[0_0_26px_rgba(90,218,255,0.28)] transition-transform duration-500 group-hover:scale-105 sm:h-[92px] sm:w-[92px]"
             >
               <motion.div
                 animate={undefined}
@@ -353,7 +354,7 @@ export default function CentresInteretPage() {
             </button>
           </div>
 
-          <motion.div className="mt-2 grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4">
+          <motion.div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-2 md:gap-2 md:overflow-visible md:pb-0 xl:grid-cols-4">
             {ADVENTURES.map((item, idx) => (
               <motion.article
                 key={item.title}
@@ -361,7 +362,7 @@ export default function CentresInteretPage() {
                 animate={reduceMotion ? undefined : { y: 0 }}
                 transition={{ duration: 0.24, delay: 0.22 + idx * 0.04, ease: "easeOut" }}
                 whileHover={reduceMotion ? undefined : { y: -2 }}
-                className="group relative overflow-hidden rounded-[14px] border border-white/14 bg-[#0b182f]/88 p-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_8px_22px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_12px_24px_rgba(0,0,0,0.44)]"
+                className="group relative min-w-[210px] overflow-hidden rounded-[14px] border border-white/14 bg-[#0b182f]/88 p-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_8px_22px_rgba(0,0,0,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_12px_24px_rgba(0,0,0,0.44)] md:min-w-0"
                 style={{ clipPath: "polygon(0 0, 95% 0, 100% 100%, 0 100%)" }}
               >
                 <div
@@ -370,7 +371,7 @@ export default function CentresInteretPage() {
                     backgroundImage: `linear-gradient(180deg, rgba(9,20,39,0.10), rgba(9,20,39,0.48)), url('${item.image}')`,
                   }}
                 >
-                  <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 rounded-md bg-black/55 px-2 py-1 text-center text-sm font-semibold text-white/94 backdrop-blur-[1px] transition-colors duration-300 group-hover:bg-black/65">
+                  <div className="absolute inset-x-2 top-1/2 -translate-y-1/2 rounded-md bg-black/55 px-2 py-1 text-center text-[13px] font-semibold text-white/94 backdrop-blur-[1px] transition-colors duration-300 group-hover:bg-black/65 sm:text-sm">
                     {item.title}
                   </div>
                   <div className="absolute inset-x-0 bottom-0 flex items-center gap-1 bg-[#0a1830]/82 px-2 py-1 text-xs text-white/62 backdrop-blur-[1px] transition-colors duration-300 group-hover:text-white/80">
@@ -387,11 +388,11 @@ export default function CentresInteretPage() {
           <motion.div className="mt-3 flex justify-center">
             <motion.div
               whileHover={reduceMotion ? undefined : { scale: 1.008 }}
-              className="relative w-full max-w-[470px] rounded-full border border-cyan-300/20 bg-[#0b1a31]/90 px-6 py-2.5 text-center shadow-[0_8px_28px_rgba(0,0,0,0.35)]"
+              className="relative w-full max-w-[470px] rounded-full border border-cyan-300/20 bg-[#0b1a31]/90 px-4 py-2 text-center shadow-[0_8px_28px_rgba(0,0,0,0.35)] sm:px-6 sm:py-2.5"
             >
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[22px] text-cyan-300/60">“</span>
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[22px] text-cyan-300/60">”</span>
-              <p className="text-[31px] italic text-white/80">Passion drives performance</p>
+              <p className="text-[24px] italic text-white/80 sm:text-[31px]">Passion drives performance</p>
               <p className="mt-0.5 text-xs not-italic text-white/58">— Work • Train • Repeat —</p>
             </motion.div>
           </motion.div>

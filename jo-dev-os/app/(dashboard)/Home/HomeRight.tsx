@@ -23,7 +23,7 @@ import { PORTFOLIO_DATA } from "@/app/data/portfolioData";
 
 type CardId = "building" | "projects" | "contact" | "experience";
 
-type ProjectStatus = "LIVE" | "WIP" | "BETA";
+type ProjectStatus = "PROD" | "DEV" | "BETA";
 
 type ProjectRow = {
   name: string;
@@ -36,7 +36,7 @@ const BEST_PROJECTS: ProjectRow[] = PORTFOLIO_DATA.projects.slice(0, 3).map((pro
   const gain = project.businessImpact.deliveryGainPercent;
   return {
     name: project.name,
-    status: project.status === "WIP" ? "WIP" : project.status === "BETA" ? "BETA" : "LIVE",
+    status: project.status === "WIP" ? "DEV" : project.status === "BETA" ? "BETA" : "PROD",
     stack: project.stack.slice(0, 2).join(" - "),
     impact: gain > 1 ? `${gain >= 0 ? "+" : ""}${gain}% delivery` : "a remplir",
   };
@@ -392,14 +392,20 @@ function ContactCard({ active }: { active: boolean }) {
 
 function StatusBadge({ status }: { status: ProjectStatus }) {
   const theme: Record<ProjectStatus, string> = {
-    LIVE: "border-emerald-300/35 bg-emerald-300/10 text-emerald-200",
-    WIP: "border-amber-300/35 bg-amber-300/10 text-amber-200",
+    PROD: "border-emerald-300/35 bg-emerald-300/10 text-emerald-200",
+    DEV: "border-cyan-300/35 bg-cyan-300/10 text-cyan-200",
     BETA: "border-violet-300/35 bg-violet-300/10 text-violet-200",
+  };
+
+  const label: Record<ProjectStatus, string> = {
+    PROD: "Production",
+    DEV: "Developpement",
+    BETA: "Beta",
   };
 
   return (
     <span className={["inline-flex w-fit rounded-full border px-2 py-0.5 text-[10px] font-medium", theme[status]].join(" ")}>
-      {status}
+      {label[status]}
     </span>
   );
 }

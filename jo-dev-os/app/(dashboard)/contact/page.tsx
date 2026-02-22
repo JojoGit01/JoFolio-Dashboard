@@ -125,17 +125,17 @@ export default function ContactPage() {
             whileHover={reduceMotion ? undefined : { y: -2 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="group relative overflow-hidden rounded-[24px] border border-cyan-300/32 bg-[linear-gradient(160deg,rgba(13,34,62,0.9),rgba(7,17,35,0.92))] p-4 backdrop-blur-xl shadow-[0_18px_56px_rgba(0,0,0,0.42),inset_0_0_0_1px_rgba(120,227,255,0.08)] md:p-5">
+            <div className="group relative overflow-hidden rounded-[22px] border border-cyan-300/32 bg-[linear-gradient(160deg,rgba(13,34,62,0.9),rgba(7,17,35,0.92))] p-3.5 backdrop-blur-xl shadow-[0_18px_56px_rgba(0,0,0,0.42),inset_0_0_0_1px_rgba(120,227,255,0.08)] sm:rounded-[24px] sm:p-4 md:p-5">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_28%_0%,rgba(124,229,255,0.18),transparent_46%)]" />
               <div className="pointer-events-none absolute bottom-0 left-[8%] h-[3px] w-[84%] rounded-full bg-[linear-gradient(90deg,rgba(96,220,255,0.68),rgba(131,137,255,0.72),rgba(96,220,255,0.68))]" />
 
               <div className="relative flex items-start gap-2.5">
-                <div className="grid h-[48px] w-[48px] place-items-center rounded-[16px] border border-cyan-300/36 bg-cyan-300/10 shadow-[0_0_16px_rgba(96,220,255,0.2)] md:h-[54px] md:w-[54px]">
+                <div className="grid h-[44px] w-[44px] place-items-center rounded-[14px] border border-cyan-300/36 bg-cyan-300/10 shadow-[0_0_16px_rgba(96,220,255,0.2)] md:h-[54px] md:w-[54px] md:rounded-[16px]">
                   <Mail size={21} className="text-cyan-200" />
                 </div>
 
                 <div className="min-w-0">
-                  <p className="text-[clamp(19px,1.8vw,30px)] font-semibold leading-none text-white/94">
+                  <p className="text-[clamp(18px,1.8vw,30px)] font-semibold leading-none text-white/94">
                     Discutons de votre projet
                   </p>
                   <p className="mt-1 text-[clamp(14px,1.05vw,18px)] text-white/82">Planifier un call 15 min</p>
@@ -147,12 +147,12 @@ export default function ContactPage() {
                   href={CALENDLY}
                   whileHover={reduceMotion ? undefined : { y: -1, scale: 1.005 }}
                   whileTap={reduceMotion ? undefined : { scale: 0.985 }}
-                  className="group/cta-main inline-flex items-center justify-between rounded-[14px] border border-cyan-300/38 bg-[#103257]/88 px-3.5 py-2 text-[13px] font-medium text-cyan-100 shadow-[0_0_0_rgba(96,220,255,0)] transition hover:bg-[#153d68] hover:shadow-[0_0_14px_rgba(96,220,255,0.2)] md:text-[14px]"
+                  className="group/cta-main inline-flex items-center justify-between rounded-[14px] border border-cyan-300/38 bg-[#103257]/88 px-3 py-2 text-[13px] font-medium text-cyan-100 shadow-[0_0_0_rgba(96,220,255,0)] transition hover:bg-[#153d68] hover:shadow-[0_0_14px_rgba(96,220,255,0.2)] md:px-3.5 md:text-[14px]"
                 >
                   <span className="inline-flex items-center gap-1.5">
                     <Calendar size={14} className="text-cyan-200" />
                     Planifier un call 15 min
-                    <span className="rounded-full border border-cyan-200/30 bg-cyan-200/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-cyan-100/80 transition group-hover/cta-main:border-cyan-200/55 group-hover/cta-main:text-cyan-50">
+                    <span className="hidden rounded-full border border-cyan-200/30 bg-cyan-200/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-cyan-100/80 transition group-hover/cta-main:border-cyan-200/55 group-hover/cta-main:text-cyan-50 sm:inline-flex">
                       Recommande
                     </span>
                   </span>
@@ -163,12 +163,12 @@ export default function ContactPage() {
                   href={`mailto:${EMAIL}`}
                   whileHover={reduceMotion ? undefined : { y: -1 }}
                   whileTap={reduceMotion ? undefined : { scale: 0.985 }}
-                  className="group/cta-mail inline-flex items-center justify-between rounded-[14px] border border-white/14 bg-black/22 px-3.5 py-2 text-[13px] text-white/82 transition hover:border-white/24 hover:bg-black/30 md:text-[14px]"
+                  className="group/cta-mail inline-flex items-center justify-between rounded-[14px] border border-white/14 bg-black/22 px-3 py-2 text-[13px] text-white/82 transition hover:border-white/24 hover:bg-black/30 md:px-3.5 md:text-[14px]"
                 >
                   <span className="inline-flex items-center gap-1.5">
                     <Mail size={14} className="text-white/75" />
                     Envoyer un email
-                    <span className="rounded-full border border-emerald-200/25 bg-emerald-200/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-emerald-100/75 transition group-hover/cta-mail:border-emerald-200/45 group-hover/cta-mail:text-emerald-50">
+                    <span className="hidden rounded-full border border-emerald-200/25 bg-emerald-200/10 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-emerald-100/75 transition group-hover/cta-mail:border-emerald-200/45 group-hover/cta-mail:text-emerald-50 sm:inline-flex">
                       Direct
                     </span>
                   </span>
@@ -208,7 +208,7 @@ export default function ContactPage() {
             whileHover={reduceMotion ? undefined : { y: -1 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="relative overflow-hidden rounded-[24px] border border-white/12 bg-[#081529]/82 p-4 backdrop-blur-xl md:p-5">
+            <div className="relative overflow-hidden rounded-[22px] border border-white/12 bg-[#081529]/82 p-3.5 backdrop-blur-xl sm:rounded-[24px] sm:p-4 md:p-5">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_64%_80%,rgba(93,223,255,0.14),transparent_40%)]" />
               <h3 className="relative text-[clamp(20px,1.65vw,30px)] font-semibold text-white/90">Pourquoi me contacter ?</h3>
 
@@ -240,7 +240,7 @@ export default function ContactPage() {
             whileHover={reduceMotion ? undefined : { y: -1 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="relative overflow-hidden rounded-[24px] border border-white/12 bg-[#081529]/82 p-4 backdrop-blur-xl md:p-5">
+            <div className="relative overflow-hidden rounded-[22px] border border-white/12 bg-[#081529]/82 p-3.5 backdrop-blur-xl sm:rounded-[24px] sm:p-4 md:p-5">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_100%,rgba(93,223,255,0.1),transparent_48%)]" />
               <h3 className="relative text-[clamp(20px,1.65vw,30px)] font-semibold text-white/90">Quick stats</h3>
 
@@ -263,6 +263,25 @@ export default function ContactPage() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </div>
+
+      <div className="fixed inset-x-3 bottom-[calc(5.2rem+env(safe-area-inset-bottom))] z-30 rounded-2xl border border-cyan-300/25 bg-[#0A1528]/88 p-2 backdrop-blur-xl sm:hidden">
+        <div className="grid grid-cols-2 gap-2">
+          <a
+            href={CALENDLY}
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-cyan-300/35 bg-cyan-300/12 px-3 py-2 text-xs font-medium text-cyan-100"
+          >
+            <Calendar size={13} />
+            Planifier
+          </a>
+          <a
+            href={`mailto:${EMAIL}`}
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-white/15 bg-black/25 px-3 py-2 text-xs text-white/85"
+          >
+            <Mail size={13} />
+            Email direct
+          </a>
         </div>
       </div>
     </motion.section>

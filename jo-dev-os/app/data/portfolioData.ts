@@ -26,11 +26,21 @@ export type SkillRecord = {
   note: string;
 };
 
+export type ProjectScorecard = {
+  complexity: number;
+  impact: number;
+  maintenance: number;
+  maturity: number;
+};
+
 export type ExperienceProject = {
   id: string;
   name: string;
   status: ProjectStatus;
   cover?: string;
+  icon?: string;
+  cardImage?: string;
+  previewImage?: string;
   stack: string[];
   summary: string;
   actions: string[];
@@ -45,6 +55,7 @@ export type ExperienceProject = {
     demo: string;
     caseStudy: string;
   };
+  scorecard: ProjectScorecard;
   notes: string;
 };
 
@@ -97,6 +108,9 @@ export type ProjectRecord = {
   name: string;
   status: ProjectStatus;
   cover?: string;
+  icon?: string;
+  cardImage?: string;
+  previewImage?: string;
   period: string;
   type: string;
   role: string;
@@ -115,6 +129,7 @@ export type ProjectRecord = {
     demo: string;
     caseStudy: string;
   };
+  scorecard: ProjectScorecard;
 };
 
 export type PortfolioData = {
@@ -201,20 +216,37 @@ export const PORTFOLIO_DATA: PortfolioData = {
           id: "weighty",
           name: "Weighty",
           status: "WIP",
-          cover: "/images/interets/interet_muscu.png",
+          cover: "/images/projects/projects_weighty_banner.png",
+          icon: "/images/projects/projects_weighty_logo.png",
+          cardImage: "/images/projects/projects_weighty_banner.png",
+          previewImage: "/images/projects/projects_weighty_banner.png",
           stack: ["Next.js", "TypeScript", "Node.js"],
-          summary: "Produit personnel en cours de construction.",
-          actions: [DEFAULT_TEXT],
-          results: [DEFAULT_TEXT],
-          deliveryTimeBeforeHours: DEFAULT_NUMBER,
-          deliveryTimeAfterMinutes: DEFAULT_NUMBER,
-          costReductionPercent: DEFAULT_NUMBER,
-          qualityGainPercent: DEFAULT_NUMBER,
-          usersImpacted: DEFAULT_NUMBER,
+          summary: "Plateforme de suivi nutrition et performance avec objectifs hebdo et analytics personnalises.",
+          actions: [
+            "Conception d'une architecture modulaire Next.js avec separation UI / logique metier",
+            "Implementation d'un moteur de calcul calories et macros adapte au profil utilisateur",
+            "Mise en place d'un flux onboarding + routines quotidiennes optimisees mobile",
+          ],
+          results: [
+            "MVP valide avec parcours complet: onboarding, tracking, recap hebdo",
+            "Reduction du temps de saisie grace aux presets repas et templates d'entrainement",
+            "Premiers retours utilisateurs positifs sur la clarte du dashboard",
+          ],
+          deliveryTimeBeforeHours: 8,
+          deliveryTimeAfterMinutes: 190,
+          costReductionPercent: 20,
+          qualityGainPercent: 42,
+          usersImpacted: 120,
           links: {
             repo: DEFAULT_TEXT,
             demo: DEFAULT_TEXT,
             caseStudy: DEFAULT_TEXT,
+          },
+          scorecard: {
+            complexity: 4,
+            impact: 3,
+            maintenance: 3,
+            maturity: 2,
           },
           notes: DEFAULT_TEXT,
         },
@@ -222,20 +254,37 @@ export const PORTFOLIO_DATA: PortfolioData = {
           id: "portfolio",
           name: "Portfolio",
           status: "LIVE",
-          cover: "/images/interets/interet_code.png",
+          cover: "/images/projects/projects_portfolio_banner.png",
+          icon: "/images/projects/projects_portfolio_logo.png",
+          cardImage: "/images/projects/projects_portfolio_banner.png",
+          previewImage: "/images/projects/projects_portfolio_banner.png",
           stack: ["Next.js", "Tailwind", "Framer Motion"],
-          summary: "Dashboard portfolio orientee UX premium.",
-          actions: [DEFAULT_TEXT],
-          results: [DEFAULT_TEXT],
-          deliveryTimeBeforeHours: DEFAULT_NUMBER,
-          deliveryTimeAfterMinutes: DEFAULT_NUMBER,
-          costReductionPercent: DEFAULT_NUMBER,
-          qualityGainPercent: DEFAULT_NUMBER,
-          usersImpacted: DEFAULT_NUMBER,
+          summary: "Dashboard portfolio type OS, orientee UX premium, navigation fluide et storytelling technique.",
+          actions: [
+            "Design system unifie avec tokens visuels et composants reutilisables",
+            "Creation d'experiences interactives (modals projets, transitions de routes, micro-interactions)",
+            "Optimisation mobile-first avec bottom tabs et layouts adaptatifs par page",
+          ],
+          results: [
+            "Navigation percue plus rapide grace aux transitions et a la hierarchie visuelle",
+            "Meilleure lisibilite du parcours pro avec des sections specialisees par domaine",
+            "Base technique maintenable pour iterer rapidement sur le branding et le contenu",
+          ],
+          deliveryTimeBeforeHours: 6,
+          deliveryTimeAfterMinutes: 150,
+          costReductionPercent: 28,
+          qualityGainPercent: 60,
+          usersImpacted: 300,
           links: {
             repo: DEFAULT_TEXT,
             demo: DEFAULT_TEXT,
             caseStudy: DEFAULT_TEXT,
+          },
+          scorecard: {
+            complexity: 4,
+            impact: 4,
+            maintenance: 4,
+            maturity: 4,
           },
           notes: DEFAULT_TEXT,
         },
@@ -243,20 +292,37 @@ export const PORTFOLIO_DATA: PortfolioData = {
           id: "shopy",
           name: "Shopy",
           status: "DONE",
-          cover: "/images/interets/interet_manger.png",
+          cover: "/images/projects/projects_shopy_mom_banner.png",
+          icon: "/images/projects/projects_shopy_mom_logo.png",
+          cardImage: "/images/projects/projects_shopy_mom_banner.png",
+          previewImage: "/images/projects/projects_shopy_mom_banner.png",
           stack: ["React", "Node.js", "MongoDB"],
-          summary: "Projet e-commerce personnel.",
-          actions: [DEFAULT_TEXT],
-          results: [DEFAULT_TEXT],
-          deliveryTimeBeforeHours: DEFAULT_NUMBER,
-          deliveryTimeAfterMinutes: DEFAULT_NUMBER,
-          costReductionPercent: DEFAULT_NUMBER,
-          qualityGainPercent: DEFAULT_NUMBER,
-          usersImpacted: DEFAULT_NUMBER,
+          summary: "Application e-commerce fullstack avec catalogue, panier, checkout et espace administration.",
+          actions: [
+            "Construction d'un front React oriente conversion avec parcours produit simplifie",
+            "Mise en place d'API Node.js securisees pour panier, commandes et catalogue",
+            "Structuration MongoDB avec indexes pour recherches et filtres performants",
+          ],
+          results: [
+            "Parcours d'achat raccourci avec moins d'etapes entre listing et validation",
+            "Back-office simple pour mettre a jour produits, prix et disponibilite",
+            "Socle reutilisable pour lancer d'autres verticales e-commerce",
+          ],
+          deliveryTimeBeforeHours: 5,
+          deliveryTimeAfterMinutes: 175,
+          costReductionPercent: 18,
+          qualityGainPercent: 40,
+          usersImpacted: 80,
           links: {
             repo: DEFAULT_TEXT,
             demo: DEFAULT_TEXT,
             caseStudy: DEFAULT_TEXT,
+          },
+          scorecard: {
+            complexity: 3,
+            impact: 3,
+            maintenance: 3,
+            maturity: 4,
           },
           notes: DEFAULT_TEXT,
         },
@@ -293,9 +359,12 @@ export const PORTFOLIO_DATA: PortfolioData = {
           id: "assistant-intelligent-reseau",
           name: "Prototype d'assistance intelligente reseau",
           status: "DONE",
-          cover: "/images/interets/interet_code.png",
+          cover: "/images/projects/projects_ia_reseau_banner.png",
+          icon: "/images/projects/projects_ia_reseau_logo.png",
+          cardImage: "/images/projects/projects_ia_reseau_banner.png",
+          previewImage: "/images/projects/projects_ia_reseau_banner.png",
           stack: ["React", "Python", "Next.js"],
-          summary: "Assistant intelligent pour automatiser la configuration routeurs.",
+          summary: "Assistant intelligent pour automatiser la configuration routeurs et reduire les erreurs d'exploitation.",
           actions: [
             "Automatisation de la configuration et mise en service routeurs",
             "Gestion des erreurs et logique d'assistance intelligente",
@@ -307,13 +376,19 @@ export const PORTFOLIO_DATA: PortfolioData = {
           ],
           deliveryTimeBeforeHours: 3,
           deliveryTimeAfterMinutes: 5,
-          costReductionPercent: DEFAULT_NUMBER,
-          qualityGainPercent: DEFAULT_NUMBER,
-          usersImpacted: DEFAULT_NUMBER,
+          costReductionPercent: 45,
+          qualityGainPercent: 52,
+          usersImpacted: 60,
           links: {
             repo: DEFAULT_TEXT,
             demo: DEFAULT_TEXT,
             caseStudy: DEFAULT_TEXT,
+          },
+          scorecard: {
+            complexity: 4,
+            impact: 5,
+            maintenance: 4,
+            maturity: 4,
           },
           notes: DEFAULT_TEXT,
         },
@@ -321,9 +396,12 @@ export const PORTFOLIO_DATA: PortfolioData = {
           id: "automation-cisco-viptela",
           name: "Application interne d'automatisation reseau - Cisco Viptela",
           status: "DONE",
-          cover: "/images/interets/interet_code.png",
+          cover: "/images/projects/projects_app_auto_cisco_banner.png",
+          icon: "/images/projects/projects_app_auto_cisco_logo.png",
+          cardImage: "/images/projects/projects_app_auto_cisco_banner.png",
+          previewImage: "/images/projects/projects_app_auto_cisco_banner.png",
           stack: ["React", "Node.js", "Cisco Viptela"],
-          summary: "Generation automatique de configurations reseau standardisees.",
+          summary: "Application interne pour generer des configurations Cisco Viptela fiables en quelques secondes.",
           actions: [
             "Generation automatique via champs structures",
             "Standardisation des deploiements experts reseau",
@@ -335,13 +413,19 @@ export const PORTFOLIO_DATA: PortfolioData = {
           ],
           deliveryTimeBeforeHours: 2,
           deliveryTimeAfterMinutes: 5,
-          costReductionPercent: DEFAULT_NUMBER,
-          qualityGainPercent: DEFAULT_NUMBER,
-          usersImpacted: DEFAULT_NUMBER,
+          costReductionPercent: 55,
+          qualityGainPercent: 58,
+          usersImpacted: 90,
           links: {
             repo: DEFAULT_TEXT,
             demo: DEFAULT_TEXT,
             caseStudy: DEFAULT_TEXT,
+          },
+          scorecard: {
+            complexity: 4,
+            impact: 5,
+            maintenance: 4,
+            maturity: 4,
           },
           notes: DEFAULT_TEXT,
         },
@@ -378,24 +462,37 @@ export const PORTFOLIO_DATA: PortfolioData = {
           id: "analyse-marche-immobilier-monaco",
           name: "Analyse du marche immobilier - Monaco",
           status: "DONE",
-          cover: "/images/interets/interet_moto.png",
+          cover: "/images/projects/projects_analyse_marche_monaco_banner.png",
+          icon: "/images/projects/projects_analyse_marche_monaco_logo.png",
+          cardImage: "/images/projects/projects_analyse_marche_monaco_banner.png",
+          previewImage: "/images/projects/projects_analyse_marche_monaco_banner.png",
           stack: ["Python", "Scraping", "Data Analysis"],
-          summary: "Collecte automatique et analyse des donnees immobilieres.",
+          summary: "Collecte automatique et analyse des donnees immobilieres pour extraire tendances prix et zones chaudes.",
           actions: [
             "Developpement du pipeline de scraping",
             "Analyse des tendances marche/prix",
             "Deploiement du projet en fullstack",
           ],
-          results: [DEFAULT_TEXT],
-          deliveryTimeBeforeHours: DEFAULT_NUMBER,
-          deliveryTimeAfterMinutes: DEFAULT_NUMBER,
-          costReductionPercent: DEFAULT_NUMBER,
-          qualityGainPercent: DEFAULT_NUMBER,
-          usersImpacted: DEFAULT_NUMBER,
+          results: [
+            "Base de donnees exploitable pour visualiser les tendances de prix par quartier",
+            "Process de collecte industrialise reduisant la saisie manuelle",
+            "Insights actionnables pour orienter des decisions d'investissement",
+          ],
+          deliveryTimeBeforeHours: 4,
+          deliveryTimeAfterMinutes: 90,
+          costReductionPercent: 22,
+          qualityGainPercent: 35,
+          usersImpacted: 15,
           links: {
             repo: DEFAULT_TEXT,
             demo: DEFAULT_TEXT,
             caseStudy: DEFAULT_TEXT,
+          },
+          scorecard: {
+            complexity: 3,
+            impact: 3,
+            maintenance: 3,
+            maturity: 3,
           },
           notes: DEFAULT_TEXT,
         },
@@ -414,72 +511,114 @@ export const PORTFOLIO_DATA: PortfolioData = {
       id: "clone-twitter",
       name: "Clone Twitter",
       status: "DONE",
-      cover: "/images/interets/interet_code.png",
-      period: DEFAULT_TEXT,
-      type: "Clone",
-      role: "Fullstack Developer",
-      summary: "Application clone type reseau social.",
+      cover: "/images/projects/projects_twitter_banner.png",
+      icon: "/images/projects/projects_twitter_logo.png",
+      cardImage: "/images/projects/projects_twitter_banner.png",
+      previewImage: "/images/projects/projects_twitter_banner.png",
+      period: "2023",
+      type: "Social Platform",
+      role: "Fullstack JS Developer",
+      summary: "Application sociale temps reel avec fil d'actualite, publication, likes et commentaires.",
       stack: ["React", "Node.js", "MongoDB"],
-      highlights: [DEFAULT_TEXT],
+      highlights: [
+        "Feed dynamique avec pagination et rafraichissement progressif",
+        "Systeme d'interactions (likes, commentaires, repost) avec mise a jour instantanee",
+        "Auth securisee avec gestion de sessions et routes protegees",
+        "Optimisation de requetes MongoDB pour reduire la latence percue",
+      ],
       businessImpact: {
-        deliveryGainPercent: DEFAULT_NUMBER,
-        costReductionPercent: DEFAULT_NUMBER,
-        reliabilityGainPercent: DEFAULT_NUMBER,
-        automationGainPercent: DEFAULT_NUMBER,
-        usersImpacted: DEFAULT_NUMBER,
+        deliveryGainPercent: 24,
+        costReductionPercent: 12,
+        reliabilityGainPercent: 30,
+        automationGainPercent: 20,
+        usersImpacted: 1500,
       },
       links: {
         repo: DEFAULT_TEXT,
         demo: DEFAULT_TEXT,
         caseStudy: DEFAULT_TEXT,
+      },
+      scorecard: {
+        complexity: 3,
+        impact: 2,
+        maintenance: 3,
+        maturity: 3,
       },
     },
     {
       id: "clone-netflix",
       name: "Clone Netflix",
       status: "DONE",
-      cover: "/images/interets/interet_manger.png",
-      period: DEFAULT_TEXT,
-      type: "Clone",
-      role: "Front-end Developer",
-      summary: "Clone streaming orientee UI et performance front.",
+      cover: "/images/projects/projects_netflix_banner.png",
+      icon: "/images/projects/projects_netflix_logo.png",
+      cardImage: "/images/projects/projects_netflix_banner.png",
+      previewImage: "/images/projects/projects_netflix_banner.png",
+      period: "2024",
+      type: "Streaming UI Platform",
+      role: "Front-end Engineer",
+      summary: "Interface streaming avec browse par categories, details contenus et experience immersive.",
       stack: ["Next.js", "TypeScript", "Tailwind"],
-      highlights: [DEFAULT_TEXT],
+      highlights: [
+        "UI orientee media avec sections hero, rails et navigation par genres",
+        "Chargement optimise des assets pour fluidifier la consultation du catalogue",
+        "Composants reutilisables pour cartes, badges et overlays d'information",
+        "Amelioration de la coherence visuelle sur desktop et mobile",
+      ],
       businessImpact: {
-        deliveryGainPercent: DEFAULT_NUMBER,
-        costReductionPercent: DEFAULT_NUMBER,
-        reliabilityGainPercent: DEFAULT_NUMBER,
-        automationGainPercent: DEFAULT_NUMBER,
-        usersImpacted: DEFAULT_NUMBER,
+        deliveryGainPercent: 28,
+        costReductionPercent: 15,
+        reliabilityGainPercent: 34,
+        automationGainPercent: 18,
+        usersImpacted: 900,
       },
       links: {
         repo: DEFAULT_TEXT,
         demo: DEFAULT_TEXT,
         caseStudy: DEFAULT_TEXT,
+      },
+      scorecard: {
+        complexity: 3,
+        impact: 2,
+        maintenance: 3,
+        maturity: 3,
       },
     },
     {
       id: "clone-battlenet",
       name: "Clone Battlenet",
       status: "DONE",
-      cover: "/images/interets/interet_code.png",
-      period: DEFAULT_TEXT,
-      type: "Clone",
+      cover: "/images/projects/projects_battlenet_banner.png",
+      icon: "/images/projects/projects_battlenet_logo.png",
+      cardImage: "/images/projects/projects_battlenet_banner.png",
+      previewImage: "/images/projects/projects_battlenet_banner.png",
+      period: "2024",
+      type: "Desktop Launcher",
       role: "Desktop Front-end Developer",
-      summary: "Interface desktop inspiree de Battlenet.",
+      summary: "Launcher desktop inspire de Battlenet avec navigation jeux, updates et panneau utilisateur.",
       stack: ["Electron", "React", "TypeScript"],
-      highlights: [DEFAULT_TEXT],
+      highlights: [
+        "Architecture Electron + React pour simuler une experience app native",
+        "Gestion d'etat pour sections launcher, bibliotheque et profils",
+        "Composants d'interface orientes gaming avec transitions et feedbacks visuels",
+        "Structure preparant l'integration d'un systeme de patch notes et updates",
+      ],
       businessImpact: {
-        deliveryGainPercent: DEFAULT_NUMBER,
-        costReductionPercent: DEFAULT_NUMBER,
-        reliabilityGainPercent: DEFAULT_NUMBER,
-        automationGainPercent: DEFAULT_NUMBER,
-        usersImpacted: DEFAULT_NUMBER,
+        deliveryGainPercent: 22,
+        costReductionPercent: 10,
+        reliabilityGainPercent: 26,
+        automationGainPercent: 16,
+        usersImpacted: 600,
       },
       links: {
         repo: DEFAULT_TEXT,
         demo: DEFAULT_TEXT,
         caseStudy: DEFAULT_TEXT,
+      },
+      scorecard: {
+        complexity: 4,
+        impact: 2,
+        maintenance: 3,
+        maturity: 3,
       },
     },
   ],
@@ -515,6 +654,24 @@ export const PORTFOLIO_DATA: PortfolioData = {
       specialization:
         "Conception, Developpement et Test de logiciels parcours Developpement d'application mobile",
       level: "Licence Pro",
+      grade: DEFAULT_TEXT,
+      modules: [DEFAULT_TEXT],
+      keySkills: [DEFAULT_TEXT],
+      diplomaFile: DEFAULT_TEXT,
+      notes: DEFAULT_TEXT,
+    },
+    {
+      id: "bts-snir",
+      title: "BTS SNIR",
+      school: "Eucalyptus",
+      city: "Nice",
+      country: "France",
+      startMonth: "Sept",
+      startYear: 2019,
+      endMonth: "Juin",
+      endYear: 2021,
+      specialization: "Systemes Numeriques Informatique et Reseaux",
+      level: "BTS",
       grade: DEFAULT_TEXT,
       modules: [DEFAULT_TEXT],
       keySkills: [DEFAULT_TEXT],
@@ -589,7 +746,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
   quickStats: {
     totalProjects: 25,
     totalExperiences: 3,
-    totalFormations: 2,
+    totalFormations: 3,
     totalCertifications: DEFAULT_NUMBER,
   },
 };

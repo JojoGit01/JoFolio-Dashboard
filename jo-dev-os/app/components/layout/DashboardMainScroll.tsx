@@ -91,15 +91,15 @@ export default function DashboardMainScroll({ children }: { children: ReactNode 
     "--page-scroll-end": theme.end,
     "--page-scroll-glow": theme.glow,
     "--page-scroll-track": theme.track,
+    "--mobile-safe-bottom": "calc(7rem + env(safe-area-inset-bottom))",
   } as CSSProperties;
 
   return (
     <main
       style={style}
-      className="page-custom-scroll-main page-scroll-themed flex-1 min-h-0 overflow-x-hidden overflow-y-auto px-10 pb-10 pt-0"
+      className="page-custom-scroll-main page-scroll-themed flex-1 min-h-0 overflow-x-hidden overflow-y-auto px-3 pb-[var(--mobile-safe-bottom)] pt-0 sm:px-4 sm:pb-8 md:px-6 md:pb-10 lg:px-10 lg:pb-10"
     >
       {children}
     </main>
   );
 }
-

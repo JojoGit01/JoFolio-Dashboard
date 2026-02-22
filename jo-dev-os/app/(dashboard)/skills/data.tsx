@@ -87,7 +87,7 @@ function relatedProjects(record: SkillRecord) {
       id: p.id,
       name: p.name,
       stack: p.stack.slice(0, 3),
-      status: p.status === "WIP" ? "WIP" : "Live",
+      status: p.status === "WIP" ? "Developpement" : "Production",
     })) satisfies NonNullable<Skill["projects"]>;
 }
 
@@ -120,4 +120,3 @@ function toSkill(record: SkillRecord): Skill {
 }
 
 export const SKILLS: Skill[] = PORTFOLIO_DATA.skills.map(toSkill);
-

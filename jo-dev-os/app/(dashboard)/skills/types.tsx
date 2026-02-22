@@ -10,7 +10,7 @@ export type Project = {
   id: string;
   name: string;
   stack: string[];
-  status?: "Live" | "WIP";
+  status?: "Production" | "Developpement";
 };
 
 export type SkillProof = {

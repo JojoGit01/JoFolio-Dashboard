@@ -18,24 +18,9 @@ import {
   Wrench,
 } from "lucide-react";
 import { CATEGORIES, SKILLS } from "./data";
-import type { AccentKey, CategoryKey, ConfidenceLevel, RoleKey, Skill } from "./types";
+import type { AccentKey, CategoryKey, ConfidenceLevel, Skill } from "./types";
 
 type CanonicalLevel = "beginner" | "intermediate" | "advanced" | "expert";
-type RoleFilter = "all" | RoleKey;
-type SortKey = "impact" | "mastery" | "recency";
-
-const ROLE_OPTIONS: Array<{ key: RoleFilter; label: string }> = [
-  { key: "all", label: "All roles" },
-  { key: "frontend_lead", label: "Frontend Lead" },
-  { key: "full_stack", label: "Full-stack" },
-  { key: "backend", label: "Backend" },
-];
-
-const SORT_OPTIONS: Array<{ key: SortKey; label: string }> = [
-  { key: "impact", label: "Impact" },
-  { key: "mastery", label: "Maitrise" },
-  { key: "recency", label: "Recence" },
-];
 
 const ACCENT: Record<
   AccentKey,
@@ -120,13 +105,9 @@ function formatRecency(months: number) {
   return `Il y a ${months} mois`;
 }
 
-function sortSkills(list: Skill[], sortBy: SortKey) {
+function sortSkills(list: Skill[]) {
   const copy = [...list];
-  copy.sort((a, b) => {
-    if (sortBy === "impact") return b.impactScore - a.impactScore || b.percent - a.percent;
-    if (sortBy === "mastery") return b.percent - a.percent || b.impactScore - a.impactScore;
-    return a.recencyMonths - b.recencyMonths || b.percent - a.percent;
-  });
+  copy.sort((a, b) => b.impactScore - a.impactScore || b.percent - a.percent);
   return copy;
 }
 
@@ -166,8 +147,6 @@ function skillIcon(skill: Skill) {
 
 export default function SkillsPage() {
   const [activeCategory, setActiveCategory] = useState<CategoryKey>("frontend");
-  const [activeRole, setActiveRole] = useState<RoleFilter>("all");
-  const [sortBy, setSortBy] = useState<SortKey>("impact");
   const [additionalOpen, setAdditionalOpen] = useState(false);
 
   const categoryCounts = useMemo(() => {
@@ -178,16 +157,15 @@ export default function SkillsPage() {
       others: 0,
     };
     for (const s of SKILLS) {
-      if (activeRole === "all" || s.roles.includes(activeRole)) map[s.category] += 1;
+      map[s.category] += 1;
     }
     return map;
-  }, [activeRole]);
+  }, []);
 
   const skillsByCategory = useMemo(() => {
     const list = SKILLS.filter((s) => s.category === activeCategory);
-    const byRole = activeRole === "all" ? list : list.filter((s) => s.roles.includes(activeRole));
-    return sortSkills(byRole, sortBy);
-  }, [activeCategory, activeRole, sortBy]);
+    return sortSkills(list);
+  }, [activeCategory]);
 
   const [selectedId, setSelectedId] = useState(
     () => SKILLS.find((s) => s.category === "frontend")?.id ?? SKILLS[0]?.id ?? "react"
@@ -211,11 +189,11 @@ export default function SkillsPage() {
           : "Autres";
 
   return (
-    <section className="relative px-2 py-3 text-white lg:px-3">
+    <section className="relative px-1 py-2 text-white sm:px-2 sm:py-3 lg:px-3">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[22px] bg-[#050d19]" />
       <div className="pointer-events-none absolute inset-0 -z-10 rounded-[22px] bg-[radial-gradient(circle_at_20%_8%,rgba(93,186,228,0.09),transparent_32%),radial-gradient(circle_at_80%_18%,rgba(132,111,190,0.07),transparent_32%),linear-gradient(180deg,rgba(7,14,28,0.94),rgba(4,8,17,0.96))]" />
 
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-3 xl:grid-cols-4">
         {CATEGORIES.map((cat) => {
           const isActive = cat.key === activeCategory;
           const catAccent = ACCENT[cat.accent];
@@ -225,14 +203,12 @@ export default function SkillsPage() {
               key={cat.key}
               onClick={() => {
                 setActiveCategory(cat.key);
-                const nextPool = SKILLS.filter(
-                  (s) => s.category === cat.key && (activeRole === "all" || s.roles.includes(activeRole))
-                );
-                const first = sortSkills(nextPool, sortBy)[0] ?? SKILLS.find((s) => s.category === cat.key);
+                const nextPool = SKILLS.filter((s) => s.category === cat.key);
+                const first = sortSkills(nextPool)[0] ?? SKILLS.find((s) => s.category === cat.key);
                 if (first) setSelectedId(first.id);
               }}
               className={[
-                "group relative overflow-hidden rounded-[16px] border bg-[#0a162b]/75 px-4 py-3 text-left backdrop-blur-md transition",
+                "group relative overflow-hidden rounded-[14px] border bg-[#0a162b]/75 px-3 py-2.5 text-left backdrop-blur-md transition sm:rounded-[16px] sm:px-4 sm:py-3",
                 isActive ? `${catAccent.border} ring-1 ${catAccent.ring}` : "border-white/10 hover:border-white/20",
               ].join(" ")}
               style={{
@@ -242,11 +218,11 @@ export default function SkillsPage() {
               }}
             >
               <div className="relative flex items-center gap-3">
-                <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-black/30 text-white/85">
+                <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-black/30 text-white/85 sm:h-10 sm:w-10">
                   {cat.icon}
                 </div>
-                <div>
-                  <p className="text-[20px] font-semibold text-white/90">{cat.label}</p>
+                <div className="min-w-0">
+                  <p className="truncate text-[13px] font-semibold text-white/90 sm:text-[20px]">{cat.label}</p>
                   <p className={["mt-0.5 text-xs", isActive ? catAccent.accentText : "text-white/58"].join(" ")}>
                     {categoryCounts[cat.key]} competences
                   </p>
@@ -268,67 +244,40 @@ export default function SkillsPage() {
         })}
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3 rounded-[14px] border border-white/10 bg-[#081326]/66 px-3 py-2">
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] uppercase tracking-[0.16em] text-white/45">Role-based</span>
-          <div className="flex flex-wrap gap-1.5">
-            {ROLE_OPTIONS.map((role) => (
-              <button
-                key={role.key}
-                onClick={() => setActiveRole(role.key)}
-                className={[
-                  "rounded-full border px-2.5 py-1 text-xs transition",
-                  activeRole === role.key
-                    ? "border-[#8fd6e9]/35 bg-[#8fd6e9]/12 text-[#b9e6f3]"
-                    : "border-white/12 bg-white/5 text-white/65 hover:border-white/25",
-                ].join(" ")}
-              >
-                {role.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <span className="hidden h-5 w-px bg-white/12 md:block" />
-
-        <div className="flex items-center gap-2">
-          <span className="text-[11px] uppercase tracking-[0.16em] text-white/45">Tri intelligent</span>
-          <div className="flex flex-wrap gap-1.5">
-            {SORT_OPTIONS.map((option) => (
-              <button
-                key={option.key}
-                onClick={() => setSortBy(option.key)}
-                className={[
-                  "rounded-full border px-2.5 py-1 text-xs transition",
-                  sortBy === option.key
-                    ? "border-[#7ec8f1]/35 bg-[#7ec8f1]/12 text-[#b5dbef]"
-                    : "border-white/12 bg-white/5 text-white/65 hover:border-white/25",
-                ].join(" ")}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-5 grid grid-cols-12 gap-4">
+      <div className="mt-4 grid grid-cols-12 gap-3 sm:mt-5 sm:gap-4">
         <div className="col-span-12 xl:col-span-8">
-          <div className="flex items-end justify-between gap-3 border-b border-white/10 pb-2">
-            <h2 className="text-3xl font-semibold text-white/90 md:text-[38px]">
+          <div className="flex items-end justify-between gap-2 border-b border-white/10 pb-2">
+            <h2 className="text-xl font-semibold text-white/90 sm:text-2xl md:text-[38px]">
               All Skills in <span className={A.title}>{sectionTitle}</span>
             </h2>
-            <button className="inline-flex items-center gap-1 text-sm text-[#8bcce8] transition hover:text-[#a2d9ef]">
+            <button className="inline-flex items-center gap-1 text-xs text-[#8bcce8] transition hover:text-[#a2d9ef] sm:text-sm">
               See All ({skillsByCategory.length}) <ChevronRight size={16} />
             </button>
           </div>
 
+          {selectedSkill && (
+            <div className="mt-3 rounded-[14px] border border-white/10 bg-[#081529]/74 p-3 xl:hidden">
+              <div className="flex items-center gap-2.5">
+                <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/12 bg-white/5">
+                  {skillIcon(selectedSkill)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold text-white/92">{selectedSkill.name}</p>
+                  <p className="mt-0.5 text-xs text-white/62">
+                    {levelLabelEN(parseLevel(selectedSkill.levelLabel))} - {selectedSkill.confidence}
+                  </p>
+                </div>
+                <p className="text-lg font-semibold text-[#7de5d0]">{selectedSkill.percent}%</p>
+              </div>
+            </div>
+          )}
+
           {skillsByCategory.length === 0 ? (
             <div className="mt-3 rounded-[14px] border border-white/10 bg-[#081327]/68 p-6 text-center text-white/62">
-              Aucune skill pour ce role dans cette categorie.
+              Aucune competence disponible dans cette categorie.
             </div>
           ) : (
-            <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-3 grid grid-cols-2 gap-2.5 md:grid-cols-2 xl:grid-cols-3">
               {skillsByCategory.map((skill) => {
                 const isActive = selectedSkill?.id === skill.id;
                 const parsed = parseLevel(skill.levelLabel);
@@ -339,7 +288,7 @@ export default function SkillsPage() {
                     key={skill.id}
                     onClick={() => setSelectedId(skill.id)}
                     className={[
-                      "group relative overflow-hidden rounded-[14px] border bg-[#081327]/72 p-3 text-left transition",
+                      "group relative overflow-hidden rounded-[14px] border bg-[#081327]/72 p-2.5 text-left transition sm:p-3",
                       isActive ? `${A.border} ring-1 ${A.ring}` : "border-white/10 hover:border-white/20",
                     ].join(" ")}
                     style={{
@@ -349,20 +298,20 @@ export default function SkillsPage() {
                     }}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="grid h-12 w-12 place-items-center rounded-xl border border-white/10 bg-black/30">
+                      <div className="grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-black/30 sm:h-12 sm:w-12">
                         {skillIcon(skill)}
                       </div>
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <p className="truncate text-[17px] font-semibold text-white/90">{skill.name}</p>
-                          <span className={["rounded-full border px-2 py-0.5 text-[10px]", confidenceClass(skill.confidence)].join(" ")}>
+                          <p className="truncate text-[13px] font-semibold text-white/90 sm:text-[17px]">{skill.name}</p>
+                          <span className={["hidden rounded-full border px-2 py-0.5 text-[10px] sm:inline-flex", confidenceClass(skill.confidence)].join(" ")}>
                             {skill.confidence}
                           </span>
                         </div>
                         <p
                           className={[
-                            "mt-0.5 text-xs",
+                            "mt-0.5 text-[11px] sm:text-xs",
                             parsed === "expert"
                               ? A.accentText
                               : parsed === "advanced"
@@ -379,16 +328,16 @@ export default function SkillsPage() {
                       <div className="h-[6px] flex-1 overflow-hidden rounded-full bg-white/12">
                         <div className={["h-full rounded-full bg-gradient-to-r", A.progress].join(" ")} style={{ width: `${skill.percent}%` }} />
                       </div>
-                      <span className="text-base font-semibold text-white/82">{skill.percent}%</span>
+                      <span className="text-[13px] font-semibold text-white/82 sm:text-base">{skill.percent}%</span>
                     </div>
 
-                    <div className="mt-2 flex items-center justify-between text-[11px] text-white/55">
+                    <div className="mt-2 flex items-center justify-between text-[10px] text-white/55 sm:text-[11px]">
                       <span>Impact {skill.impactScore}</span>
                       <span>{formatRecency(skill.recencyMonths)}</span>
                     </div>
 
                     {firstProof && (
-                      <div className="mt-2 flex items-center gap-1.5 rounded-lg border border-white/8 bg-black/25 px-2 py-1.5 text-[11px] text-white/68">
+                      <div className="mt-2 hidden items-center gap-1.5 rounded-lg border border-white/8 bg-black/25 px-2 py-1.5 text-[11px] text-white/68 sm:flex">
                         <Play size={10} className="text-[#86cde7]" />
                         <span className="truncate">{firstProof.project}</span>
                         <span className="ml-auto truncate text-[#9fcbde]">{firstProof.impact}</span>
@@ -402,11 +351,11 @@ export default function SkillsPage() {
             </div>
           )}
 
-          <div className="mt-6 border-b border-white/10 pb-2">
-            <button
-              onClick={() => setAdditionalOpen((v) => !v)}
-              className="group inline-flex items-center gap-2 text-3xl font-semibold text-white/90 md:text-[36px]"
-            >
+          <div className="mt-5 border-b border-white/10 pb-2 sm:mt-6">
+                  <button
+                    onClick={() => setAdditionalOpen((v) => !v)}
+                    className="group inline-flex items-center gap-2 text-2xl font-semibold text-white/90 md:text-[36px]"
+                  >
               Additional <span className={A.title}>Skills</span>
               <ChevronDown
                 size={20}
@@ -419,7 +368,7 @@ export default function SkillsPage() {
             <div className="mt-3 rounded-[16px] border border-white/10 bg-[#081326]/68 p-3 backdrop-blur-md">
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                 <div className="md:border-r md:border-white/8 md:pr-3">
-                  <p className="text-[22px] font-semibold text-white/88">State Management</p>
+                  <p className="text-[18px] font-semibold text-white/88 sm:text-[22px]">State Management</p>
                   <p className="mt-1 text-sm text-white/63">Redux, Zustand, Context API</p>
                   <div className="mt-3 flex items-center gap-2">
                     {Array.from({ length: 8 }).map((_, i) => (
@@ -428,12 +377,12 @@ export default function SkillsPage() {
                     <span className="h-[4px] w-20 rounded-full bg-white/10" />
                   </div>
 
-                  <p className="mt-6 text-[22px] font-semibold text-white/88">Testing</p>
+                  <p className="mt-5 text-[18px] font-semibold text-white/88 sm:mt-6 sm:text-[22px]">Testing</p>
                   <p className="mt-1 text-sm text-white/63">Jest, Cypress, React Testing Lib</p>
                 </div>
 
                 <div className="md:border-r md:border-white/8 md:px-3">
-                  <p className="text-[22px] font-semibold text-white/88">UI Libraries</p>
+                  <p className="text-[18px] font-semibold text-white/88 sm:text-[22px]">UI Libraries</p>
                   <p className="mt-1 text-sm text-white/63">Material-UI, Chakra UI, AntD</p>
 
                   <div className="mt-3 space-y-4">
@@ -444,7 +393,7 @@ export default function SkillsPage() {
                 </div>
 
                 <div className="md:pl-3">
-                  <p className="text-[22px] font-semibold text-white/88">Testing Grid</p>
+                  <p className="text-[18px] font-semibold text-white/88 sm:text-[22px]">Testing Grid</p>
                   <div className="mt-3 space-y-4">
                     {Array.from({ length: 4 }).map((_, row) => (
                       <div key={row} className="grid grid-cols-6 gap-2">
@@ -466,20 +415,20 @@ export default function SkillsPage() {
           )}
         </div>
 
-        <div className="col-span-12 xl:col-span-4">
+        <div className="col-span-12 hidden xl:col-span-4 xl:block">
           {selectedSkill ? (
-            <aside className="relative overflow-hidden rounded-[18px] border border-white/10 bg-[#081529]/74 p-4 backdrop-blur-md">
+            <aside className="relative overflow-hidden rounded-[16px] border border-white/10 bg-[#081529]/74 p-3 backdrop-blur-md sm:rounded-[18px] sm:p-4">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_10%,rgba(100,190,215,0.14),transparent_36%)]" />
 
               <div className="relative flex items-start justify-between gap-3 border-b border-white/10 pb-3">
                 <div className="flex items-start gap-3">
-                  <div className="grid h-14 w-14 place-items-center rounded-xl border border-white/12 bg-white/5">
+                  <div className="grid h-11 w-11 place-items-center rounded-xl border border-white/12 bg-white/5 sm:h-14 sm:w-14">
                     {skillIcon(selectedSkill)}
                   </div>
                   <div>
-                    <p className="text-[28px] font-semibold leading-none text-white/90">{selectedSkill.name}</p>
+                    <p className="text-[22px] font-semibold leading-none text-white/90 sm:text-[28px]">{selectedSkill.name}</p>
                     <p className="mt-1">
-                      <span className="text-[42px] font-semibold leading-none text-[#7de5d0]">{selectedSkill.percent}%</span>
+                      <span className="text-[30px] font-semibold leading-none text-[#7de5d0] sm:text-[42px]">{selectedSkill.percent}%</span>
                       <span className="ml-1 text-sm text-white/58">Mastery</span>
                     </p>
                   </div>
@@ -495,7 +444,7 @@ export default function SkillsPage() {
               </div>
 
               <div className="relative mt-4">
-                <p className="text-[28px] font-semibold leading-none text-white/88">Proficiency</p>
+                <p className="text-[22px] font-semibold leading-none text-white/88 sm:text-[28px]">Proficiency</p>
                 <div className="mt-3 h-[4px] w-full rounded-full bg-white/15">
                   <div
                     className="h-full rounded-full bg-gradient-to-r from-[#4f5f7f] via-[#6180b0] to-[#68c8e0]"
@@ -511,12 +460,12 @@ export default function SkillsPage() {
               </div>
 
               <div className="relative mt-4">
-                <p className="text-[28px] font-semibold leading-none text-white/88">Maitrise x Experience</p>
+                <p className="text-[22px] font-semibold leading-none text-white/88 sm:text-[28px]">Maitrise x Experience</p>
                 <SkillsMatrix skills={skillsByCategory} selectedId={selectedSkill.id} onSelect={setSelectedId} />
               </div>
 
               <div className="relative mt-4">
-                <p className="text-[28px] font-semibold leading-none text-white/88">Project proofs</p>
+                <p className="text-[22px] font-semibold leading-none text-white/88 sm:text-[28px]">Project proofs</p>
                 <div className="mt-2 space-y-2">
                   {(selectedSkill.proofs ?? []).slice(0, 2).map((proof) => (
                     <div key={proof.id} className="rounded-xl border border-white/10 bg-black/22 px-3 py-2">
@@ -536,7 +485,7 @@ export default function SkillsPage() {
             </aside>
           ) : (
             <aside className="rounded-[18px] border border-white/10 bg-[#081529]/74 p-4 text-sm text-white/62 backdrop-blur-md">
-              Selectionne une categorie ou change le role pour afficher des details.
+              Selectionne une categorie pour afficher des details.
             </aside>
           )}
         </div>

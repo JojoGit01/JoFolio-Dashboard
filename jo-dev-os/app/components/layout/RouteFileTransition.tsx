@@ -118,11 +118,11 @@ export default function RouteFileTransition() {
       {visible && (
         <motion.div
           key="route-file-transition"
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.18 }}
-          className="fixed inset-0 z-[140] flex items-center justify-center bg-[#020812]/35 backdrop-blur-[1px]"
+          exit={{ opacity: 1 }}
+          transition={{ duration: 0.01 }}
+          className="fixed inset-0 z-[140] flex items-center justify-center bg-transparent"
         >
           <motion.div
             initial={{ opacity: 0, y: 10, scale: 0.98 }}
