@@ -93,14 +93,99 @@ function relatedProjects(record: SkillRecord) {
 
 function relatedProofs(record: SkillRecord) {
   const related = relatedProjects(record);
-  return related.map((p, idx) => ({
-    id: `${record.id}-proof-${idx + 1}`,
-    project: p.name,
-    impact: `${record.priorityScore >= 4 ? "+ impact produit" : "a remplir"} (${record.name})`,
-  })) satisfies NonNullable<Skill["proofs"]>;
+  return related.map((p, idx) => {
+    const source = PORTFOLIO_DATA.projects.find((project) => project.id === p.id);
+    const impact = source?.businessImpact;
+
+    let impactLabel = "Contribution technique appliquee";
+    if (impact) {
+      if ((impact.deliveryGainPercent ?? 0) > 1) {
+        impactLabel = `${impact.deliveryGainPercent > 0 ? "-" : "+"}${Math.abs(impact.deliveryGainPercent)}% temps delivery`;
+      } else if ((impact.automationGainPercent ?? 0) > 1) {
+        impactLabel = `+${impact.automationGainPercent}% automatisation`;
+      } else if ((impact.usersImpacted ?? 0) > 1) {
+        impactLabel = `${impact.usersImpacted}+ utilisateurs touches`;
+      } else if ((impact.reliabilityGainPercent ?? 0) > 1) {
+        impactLabel = `+${impact.reliabilityGainPercent}% fiabilite`;
+      }
+    }
+
+    return {
+      id: `${record.id}-proof-${idx + 1}`,
+      project: p.name,
+      impact: impactLabel,
+    };
+  }) satisfies NonNullable<Skill["proofs"]>;
+}
+
+function inferExposure(record: SkillRecord, projects: NonNullable<Skill["projects"]>): Skill["exposure"] {
+  const hasProd = projects.some((p) => p.status === "Production");
+  const hasSideSignals = projects.length > 0;
+  const recency = recencyMonths(record.lastUsedYear);
+  if (hasProd && (record.confidence === "Core" || record.confidence === "Strong")) return "Prod";
+  if (hasSideSignals) return "Side";
+  if (record.confidence === "Working" || recency > 18) return "Learning";
+  return "Side";
+}
+
+function inferUseCases(record: SkillRecord): string[] {
+  const name = record.name.toLowerCase();
+  if (name.includes("react")) {
+    return [
+      "Interfaces dashboard riches en etats et composants reutilisables",
+      "Mise en place de flows UI orientés productivite",
+    ];
+  }
+  if (name.includes("next")) {
+    return [
+      "Applications web full-stack avec routing, pages produit et layouts complexes",
+      "Structuration front-end orientee maintenabilite et delivery rapide",
+    ];
+  }
+  if (name.includes("typescript")) {
+    return [
+      "Modelisation des contrats de donnees et reduction des regressions front/back",
+      "Refactors plus rapides sur codebases evolutives",
+    ];
+  }
+  if (name.includes("node") || name.includes("nest") || name.includes("express")) {
+    return [
+      "APIs metier, automatisation de workflows et orchestration de services",
+      "Structuration back-end orientee robustesse et exploitation",
+    ];
+  }
+  if (name.includes("postgres") || name.includes("mysql") || name.includes("mongo")) {
+    return [
+      "Conception de schemas et requetes pour apps produit et dashboards",
+      "Optimisation des echanges de donnees et lisibilite des models",
+    ];
+  }
+  if (name.includes("docker") || name.includes("aws") || name.includes("ci/cd")) {
+    return [
+      "Standardisation des environnements et fluidification des deployements",
+      "Automatisation de la livraison et de l'execution des workflows",
+    ];
+  }
+  if (record.category === "Frontend") {
+    return [
+      "Interfaces orientees conversion et experience utilisateur",
+      "Composants reutilisables et design systems pragmatiques",
+    ];
+  }
+  if (record.category === "Backend" || record.category === "Database") {
+    return [
+      "Couches metier et APIs pour outils internes et plateformes produit",
+      "Fiabilisation des traitements et logique serveur",
+    ];
+  }
+  return [
+    "Support de la delivery et de la qualite d'execution sur les projets",
+    "Acceleration des iterations avec des outils adaptes au contexte",
+  ];
 }
 
 function toSkill(record: SkillRecord): Skill {
+  const projects = relatedProjects(record);
   return {
     id: record.id,
     name: record.name,
@@ -111,10 +196,12 @@ function toSkill(record: SkillRecord): Skill {
     experienceYears: record.years,
     levelLabel: record.level,
     confidence: record.confidence,
+    exposure: inferExposure(record, projects),
     roles: inferRoles(record),
     iconKey: mapIconKey(record.name),
     tags: [record.category, `${record.years} ans`, `Recence ${record.lastUsedYear}`],
-    projects: relatedProjects(record),
+    useCases: inferUseCases(record),
+    projects,
     proofs: relatedProofs(record),
   };
 }

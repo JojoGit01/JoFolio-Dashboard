@@ -14,7 +14,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative h-screen min-h-[100dvh] w-full overflow-hidden bg-[#0B1220] text-[#E6EDF7]">
+    <div className="dashboard-shell font-display relative h-screen min-h-[100dvh] w-full overflow-hidden bg-[#0B1220] text-[#E6EDF7]">
       <RouteFileTransition />
       <DashboardBootLoader />
       <CustomCursor />

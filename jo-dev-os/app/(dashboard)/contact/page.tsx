@@ -1,98 +1,31 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
-  BriefcaseBusiness,
   Calendar,
   Clock3,
-  FolderKanban,
   Github,
-  Lightbulb,
   Linkedin,
   Mail,
   MapPin,
-  PenTool,
-  Smartphone,
-  UserRound,
 } from "lucide-react";
-import { PORTFOLIO_DATA, TOTAL_PROJECTS_WITH_EXPERIENCE } from "@/app/data/portfolioData";
 
-const LINKEDIN = PORTFOLIO_DATA.contact.linkedin;
-const GITHUB = PORTFOLIO_DATA.contact.github;
-const EMAIL = PORTFOLIO_DATA.contact.email;
-const CALENDLY = "#";
-const TOTAL_PROJECTS = TOTAL_PROJECTS_WITH_EXPERIENCE;
+import { PORTFOLIO_DATA } from "@/app/data/portfolioData";
 
-const REASONS = [
-  {
-    title: "Architecture scalable",
-    desc: "Clean code, patterns, separation claire des responsabilites",
-    icon: BriefcaseBusiness,
-    accent: "cyan",
-  },
-  {
-    title: "Vision produit",
-    desc: "Priorites, UX, performance, livraison rapide",
-    icon: Lightbulb,
-    accent: "violet",
-  },
-  {
-    title: "UI premium",
-    desc: "Dashboard coherent, micro-interactions",
-    icon: PenTool,
-    accent: "amber",
-  },
-  {
-    title: "Web + Mobile",
-    desc: "Next.js, React Native, API, tooling moderne",
-    icon: Smartphone,
-    accent: "emerald",
-  },
-] as const;
-
-const STATS = [
-  {
-    label: "Projets",
-    value: String(TOTAL_PROJECTS),
-    width: "86%",
-    icon: FolderKanban,
-    color: "from-amber-200 via-yellow-200 to-emerald-200",
-  },
-  {
-    label: "Experience pro",
-    value: `${PORTFOLIO_DATA.profile.yearsPro} ans`,
-    width: "32%",
-    icon: BriefcaseBusiness,
-    color: "from-cyan-200 to-sky-300",
-  },
-  {
-    label: "Experience perso",
-    value: `${PORTFOLIO_DATA.profile.yearsPersonal} ans`,
-    width: "84%",
-    icon: UserRound,
-    color: "from-emerald-200 to-cyan-300",
-  },
-] as const;
-
-const REASON_LIST_VARIANTS: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.04,
-    },
-  },
-};
-
-const REASON_ITEM_VARIANTS: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.28, ease: "easeOut" },
-  },
-};
+import {
+  CALENDLY,
+  EMAIL,
+  GITHUB,
+  LINKEDIN,
+  REASONS,
+  REASON_ITEM_VARIANTS,
+  REASON_LIST_VARIANTS,
+  STATS,
+  getReasonIconClass,
+  getStatIconClass,
+} from "./config";
+import { ReasonCard, SocialCard, StatRow } from "./components/ContactCards";
 
 export default function ContactPage() {
   const reduceMotion = useReducedMotion();
@@ -121,10 +54,7 @@ export default function ContactPage() {
         </header>
 
         <div className="grid grid-cols-1 gap-3 xl:grid-cols-[1.6fr_1fr]">
-          <motion.div
-            whileHover={reduceMotion ? undefined : { y: -2 }}
-            transition={{ duration: 0.2 }}
-          >
+          <motion.div whileHover={reduceMotion ? undefined : { y: -2 }} transition={{ duration: 0.2 }}>
             <div className="group relative overflow-hidden rounded-[22px] border border-cyan-300/32 bg-[linear-gradient(160deg,rgba(13,34,62,0.9),rgba(7,17,35,0.92))] p-3.5 backdrop-blur-xl shadow-[0_18px_56px_rgba(0,0,0,0.42),inset_0_0_0_1px_rgba(120,227,255,0.08)] sm:rounded-[24px] sm:p-4 md:p-5">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_28%_0%,rgba(124,229,255,0.18),transparent_46%)]" />
               <div className="pointer-events-none absolute bottom-0 left-[8%] h-[3px] w-[84%] rounded-full bg-[linear-gradient(90deg,rgba(96,220,255,0.68),rgba(131,137,255,0.72),rgba(96,220,255,0.68))]" />
@@ -204,10 +134,7 @@ export default function ContactPage() {
         <div className="h-px w-full bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent)]" />
 
         <div className="grid grid-cols-1 gap-3 xl:grid-cols-[1.6fr_1fr]">
-          <motion.div
-            whileHover={reduceMotion ? undefined : { y: -1 }}
-            transition={{ duration: 0.2 }}
-          >
+          <motion.div whileHover={reduceMotion ? undefined : { y: -1 }} transition={{ duration: 0.2 }}>
             <div className="relative overflow-hidden rounded-[22px] border border-white/12 bg-[#081529]/82 p-3.5 backdrop-blur-xl sm:rounded-[24px] sm:p-4 md:p-5">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_64%_80%,rgba(93,223,255,0.14),transparent_40%)]" />
               <h3 className="relative text-[clamp(20px,1.65vw,30px)] font-semibold text-white/90">Pourquoi me contacter ?</h3>
@@ -236,10 +163,7 @@ export default function ContactPage() {
             </div>
           </motion.div>
 
-          <motion.div
-            whileHover={reduceMotion ? undefined : { y: -1 }}
-            transition={{ duration: 0.2 }}
-          >
+          <motion.div whileHover={reduceMotion ? undefined : { y: -1 }} transition={{ duration: 0.2 }}>
             <div className="relative overflow-hidden rounded-[22px] border border-white/12 bg-[#081529]/82 p-3.5 backdrop-blur-xl sm:rounded-[24px] sm:p-4 md:p-5">
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_100%,rgba(93,223,255,0.1),transparent_48%)]" />
               <h3 className="relative text-[clamp(20px,1.65vw,30px)] font-semibold text-white/90">Quick stats</h3>
@@ -286,154 +210,4 @@ export default function ContactPage() {
       </div>
     </motion.section>
   );
-}
-
-function SocialCard({
-  title,
-  value,
-  href,
-  icon,
-  accent,
-}: {
-  title: string;
-  value: string;
-  href: string;
-  icon: React.ReactNode;
-  accent: "cyan" | "violet";
-}) {
-  const accentClass = accent === "cyan" ? "border-cyan-300/35 bg-cyan-300/10" : "border-violet-300/35 bg-violet-300/10";
-  const hoverBorder = accent === "cyan" ? "hover:border-cyan-300/40" : "hover:border-violet-300/40";
-  const scanColor = accent === "cyan" ? "via-cyan-200/35" : "via-violet-200/35";
-
-  return (
-    <motion.a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      whileHover={{ y: -2 }}
-      whileTap={{ scale: 0.985 }}
-      className={[
-        "group relative block overflow-hidden rounded-[22px] border border-white/12 bg-[#081529]/84 p-3.5 backdrop-blur-xl transition md:p-4",
-        hoverBorder,
-      ].join(" ")}
-    >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_30%,rgba(116,217,255,0.12),transparent_42%)] opacity-80" />
-      <div
-        className={[
-          "pointer-events-none absolute inset-y-0 left-0 w-1/3 -translate-x-[130%] bg-gradient-to-r from-transparent to-transparent opacity-0 blur-xl transition-all duration-700 group-hover:translate-x-[390%] group-hover:opacity-100",
-          scanColor,
-        ].join(" ")}
-      />
-      <div className="flex items-center gap-3">
-        <div className={["grid h-10 w-10 place-items-center rounded-xl border", accentClass].join(" ")}>{icon}</div>
-        <div className="min-w-0">
-          <p className="text-[clamp(16px,1.18vw,21px)] font-semibold text-white/92">{title}</p>
-          <p className="mt-0.5 truncate text-[clamp(12px,0.85vw,15px)] text-white/68">{value}</p>
-        </div>
-        <ArrowRight size={16} className="ml-auto text-white/58 transition group-hover:translate-x-1" />
-      </div>
-    </motion.a>
-  );
-}
-
-function ReasonCard({
-  icon,
-  title,
-  desc,
-  accent,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-  accent: "cyan" | "violet" | "amber" | "emerald";
-}) {
-  const accentMap: Record<typeof accent, { icon: string; line: string }> = {
-    cyan: {
-      icon: "border-cyan-300/35 bg-cyan-300/10",
-      line: "bg-cyan-300/80",
-    },
-    violet: {
-      icon: "border-violet-300/35 bg-violet-300/10",
-      line: "bg-violet-300/80",
-    },
-    amber: {
-      icon: "border-amber-300/35 bg-amber-300/10",
-      line: "bg-amber-300/80",
-    },
-    emerald: {
-      icon: "border-emerald-300/35 bg-emerald-300/10",
-      line: "bg-emerald-300/80",
-    },
-  };
-
-  return (
-    <div className="relative rounded-[16px] border border-white/12 bg-black/20 p-3 transition hover:border-white/20">
-      <div className={["absolute inset-y-4 left-0 w-[2px] rounded-full opacity-80", accentMap[accent].line].join(" ")} />
-      <div className="flex items-start gap-3">
-        <div className={["grid h-9 w-9 place-items-center rounded-xl border", accentMap[accent].icon].join(" ")}>{icon}</div>
-        <div>
-          <p className="text-[clamp(15px,1vw,20px)] font-semibold text-white/90">{title}</p>
-          <p className="mt-1 text-xs leading-relaxed text-white/68 md:text-[13px]">{desc}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function StatRow({
-  icon,
-  label,
-  value,
-  width,
-  color,
-  index,
-  reduceMotion,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  width: string;
-  color: string;
-  index: number;
-  reduceMotion: boolean;
-}) {
-  return (
-    <div className="rounded-[14px] border border-white/12 bg-black/22 px-3 py-2.5">
-      <div className="flex items-center gap-3">
-        <div className="grid h-8 w-8 place-items-center rounded-lg border border-white/12 bg-white/5">{icon}</div>
-        <p className="text-[clamp(14px,0.95vw,18px)] text-white/84">{label}</p>
-        <p className="ml-auto text-[clamp(16px,1.2vw,22px)] font-semibold text-white/92">{value}</p>
-      </div>
-      <div className="mt-2.5 h-[3px] overflow-hidden rounded-full bg-white/12">
-        {reduceMotion ? (
-          <div className={["h-full rounded-full bg-gradient-to-r", color].join(" ")} style={{ width }} />
-        ) : (
-          <motion.div
-            className={["h-full rounded-full bg-gradient-to-r", color].join(" ")}
-            initial={{ width: 0, opacity: 0.55 }}
-            whileInView={{ width, opacity: 1 }}
-            viewport={{ once: true, amount: 0.75 }}
-            transition={{
-              duration: 0.6,
-              delay: index * 0.08,
-              ease: [0.2, 0.8, 0.2, 1],
-            }}
-          />
-        )}
-      </div>
-    </div>
-  );
-}
-
-function getReasonIconClass(accent: (typeof REASONS)[number]["accent"]) {
-  if (accent === "cyan") return "text-cyan-200";
-  if (accent === "violet") return "text-violet-200";
-  if (accent === "amber") return "text-amber-200";
-  return "text-emerald-200";
-}
-
-function getStatIconClass(label: (typeof STATS)[number]["label"]) {
-  if (label === "Projets") return "text-amber-200";
-  if (label === "Experience pro") return "text-cyan-200";
-  return "text-emerald-200";
 }

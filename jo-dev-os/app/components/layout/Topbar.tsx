@@ -164,7 +164,7 @@ export default function Topbar() {
 
           <div className="min-w-0">
             <div className="flex items-center gap-2">
-              <div className="truncate text-[18px] font-semibold leading-none tracking-tight text-white/90 sm:text-[24px] md:text-[26px]">
+              <div className="font-display truncate pb-0.5 text-[18px] font-semibold leading-[1.12] tracking-tight text-white/90 sm:text-[24px] md:text-[26px]">
                 {meta.title}
               </div>
               <GlobalStatusBadge label={GLOBAL_STATUS} />
@@ -178,9 +178,9 @@ export default function Topbar() {
         <ZoneLine accent={theme.accent} className="flex-1" />
 
         <div className="hidden items-center gap-3 px-1 lg:flex">
-          <span className="text-[10px] uppercase tracking-[0.18em] text-white/45">Section active</span>
+          <span className="font-data text-[10px] uppercase tracking-[0.18em] text-white/45">Section active</span>
           <span
-            className="rounded-full border px-3 py-1 text-xs text-white/85"
+            className="font-data rounded-full border px-3 py-1 text-xs text-white/85"
             style={{
               borderColor: theme.accentSoft,
               background: `linear-gradient(90deg, ${theme.accentSoft}, rgba(255,255,255,0.06))`,
@@ -229,7 +229,7 @@ export default function Topbar() {
 
 function GlobalStatusBadge({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300/35 bg-emerald-300/10 px-2 py-0.5 text-[10px] font-medium text-emerald-200 sm:gap-1.5 sm:px-2.5 sm:py-1 sm:text-[11px]">
+    <span className="font-data inline-flex items-center gap-1 rounded-full border border-emerald-300/35 bg-emerald-300/10 px-2 py-0.5 text-[10px] font-medium text-emerald-200 sm:gap-1.5 sm:px-2.5 sm:py-1 sm:text-[11px]">
       <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 animate-pulse" />
       {label}
     </span>

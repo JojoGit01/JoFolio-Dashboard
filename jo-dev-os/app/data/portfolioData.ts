@@ -173,7 +173,7 @@ export const PORTFOLIO_DATA: PortfolioData = {
     yearsPro: 3,
     yearsPersonal: 8,
     availability: "Disponible CDI / Freelance",
-    bio: "Developpeur Full-Stack oriente produit, automation et dashboards premium.",
+    bio: "J'interviens sur l'architecture applicative, l'automatisation des workflows et la construction de dashboards orientes decision pour accelerer la livraison produit et fiabiliser les operations.",
   },
   contact: {
     email: "contact@jodevos.dev",

@@ -1,76 +1,23 @@
 "use client";
 
 import { useMemo, useState } from "react";
+
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { BriefcaseBusiness, FolderKanban, UserRound, X } from "lucide-react";
-import ExperienceTimelineLeft, { ExperienceRecord, ExperienceViewMode } from "./ExperienceTimelineLeft";
-import ExperienceDetailsRight from "./ExperienceDetailsRight";
+import { BriefcaseBusiness, FolderKanban, UserRound } from "lucide-react";
+
 import { PORTFOLIO_DATA, TOTAL_PROJECTS_WITH_EXPERIENCE } from "@/app/data/portfolioData";
 
-type FilterKey = "all" | "pro" | "perso";
-type SortKey = "recent" | "impact";
-
-const FILTERS: { id: FilterKey; label: string }[] = [
-  { id: "all", label: "Tout" },
-  { id: "pro", label: "Pro" },
-  { id: "perso", label: "Perso" },
-];
+import { FILTERS } from "./config";
+import { buildExperienceItems, filterAndSortExperienceItems } from "./data-mappers";
+import ExperienceDetailsRight from "./ExperienceDetailsRight";
+import ExperienceMetricBadge from "./ExperienceMetricBadge";
+import ExperienceMobileSheet from "./ExperienceMobileSheet";
+import ExperienceTimelineLeft from "./ExperienceTimelineLeft";
+import type { FilterKey, SortKey, ExperienceViewMode } from "./types";
 
 export default function ExperiencePage() {
   const reduceMotion = useReducedMotion();
-  const items = useMemo<ExperienceRecord[]>(() => {
-    const statusMap = { LIVE: "PROD", WIP: "DEV", DONE: "PROD", BETA: "DEV", ARCHIVE: "PROD" } as const;
-    const kindMap = {
-      CDI: "CDI",
-      CDD: "CDI",
-      Freelance: "FREELANCE",
-      Stage: "STAGE",
-      Personnel: "PERSO",
-    } as const;
-
-    return PORTFOLIO_DATA.experiences.map((exp, index) => ({
-      id: exp.id,
-      role: exp.title,
-      period: `${exp.startYear} - ${exp.endYear}`,
-      timelineLabel: exp.startYear === exp.endYear ? `${exp.startYear}` : `${exp.startYear}-${exp.endYear}`,
-      badge: exp.contractType === "Personnel" ? "Projet Perso" : exp.contractType,
-      kind: kindMap[exp.contractType],
-      org: exp.company,
-      city: exp.location,
-      impacts: [
-        ...exp.projects.flatMap((p) => p.actions.slice(0, 1)),
-        ...exp.projects.flatMap((p) => p.results.slice(0, 2)),
-      ].slice(0, 3),
-      stack: exp.technologies.slice(0, 8),
-      highlights: {
-        delivery: Math.max(1, exp.globalImpact.deliveryGainPercent, ...exp.projects.map((p) => p.qualityGainPercent)),
-        backend: Math.max(1, exp.globalImpact.automationGainPercent),
-        apiPerf: Math.max(1, exp.globalImpact.reliabilityGainPercent, ...exp.projects.map((p) => p.qualityGainPercent)),
-        security: Math.max(1, exp.globalImpact.costReductionPercent, ...exp.projects.map((p) => p.costReductionPercent)),
-      },
-      metrics: {
-        deliveryGainPercent: Math.max(
-          1,
-          exp.globalImpact.deliveryGainPercent,
-          ...exp.projects.map((p) => {
-            const before = p.deliveryTimeBeforeHours * 60;
-            return before > 0 ? Math.round(((before - p.deliveryTimeAfterMinutes) / before) * 100) : 1;
-          })
-        ),
-        automationGainPercent: Math.max(1, exp.globalImpact.automationGainPercent),
-        reliabilityGainPercent: Math.max(1, exp.globalImpact.reliabilityGainPercent, ...exp.projects.map((p) => p.qualityGainPercent)),
-        costReductionPercent: Math.max(1, exp.globalImpact.costReductionPercent, ...exp.projects.map((p) => p.costReductionPercent)),
-        usersImpacted: Math.max(1, exp.projects.reduce((acc, p) => acc + p.usersImpacted, 0)),
-        projectsCount: exp.projects.length,
-      },
-      projects: exp.projects.map((p) => ({
-        id: p.id,
-        title: p.name,
-        status: statusMap[p.status],
-      })),
-      featured: index === 0,
-    }));
-  }, []);
+  const items = useMemo(() => buildExperienceItems(), []);
 
   const [activeFilter, setActiveFilter] = useState<FilterKey>("pro");
   const [sortKey, setSortKey] = useState<SortKey>("recent");
@@ -78,31 +25,9 @@ export default function ExperiencePage() {
   const [selectedId, setSelectedId] = useState(items[0]?.id ?? "");
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
 
-  const filteredItems = useMemo(() => {
-    const filtered =
-      activeFilter === "all"
-        ? items
-        : activeFilter === "pro"
-          ? items.filter((item) => item.kind !== "PERSO")
-          : items.filter((item) => item.kind === "PERSO");
+  const filteredItems = useMemo(() => filterAndSortExperienceItems(items, activeFilter, sortKey), [activeFilter, items, sortKey]);
 
-    return [...filtered].sort((a, b) => {
-      if (sortKey === "recent") {
-        const aEnd = Number(a.period.split("-").at(1)?.trim() ?? 0);
-        const bEnd = Number(b.period.split("-").at(1)?.trim() ?? 0);
-        return bEnd - aEnd;
-      }
-      const impactA =
-        a.metrics.deliveryGainPercent + a.metrics.automationGainPercent + a.metrics.costReductionPercent + a.metrics.reliabilityGainPercent;
-      const impactB =
-        b.metrics.deliveryGainPercent + b.metrics.automationGainPercent + b.metrics.costReductionPercent + b.metrics.reliabilityGainPercent;
-      return impactB - impactA;
-    });
-  }, [activeFilter, items, sortKey]);
-
-  const resolvedSelectedId =
-    filteredItems.find((item) => item.id === selectedId)?.id ?? filteredItems[0]?.id ?? "";
-
+  const resolvedSelectedId = filteredItems.find((item) => item.id === selectedId)?.id ?? filteredItems[0]?.id ?? "";
   const selectedItem = filteredItems.find((item) => item.id === resolvedSelectedId);
 
   const handleSelectExperience = (id: string) => {
@@ -176,21 +101,21 @@ export default function ExperiencePage() {
           </div>
 
           <div className="quickview-hide grid grid-cols-3 gap-2 sm:gap-3 lg:w-[370px]">
-            <MetricBadge
+            <ExperienceMetricBadge
               icon={<BriefcaseBusiness size={14} className="text-cyan-200" />}
               value={`${PORTFOLIO_DATA.profile.yearsPro}`}
               label="ans pro"
               tone="cyan"
               delay={0.02}
             />
-            <MetricBadge
+            <ExperienceMetricBadge
               icon={<FolderKanban size={14} className="text-emerald-200" />}
               value={`${TOTAL_PROJECTS_WITH_EXPERIENCE}`}
               label="projets"
               tone="emerald"
               delay={0.08}
             />
-            <MetricBadge
+            <ExperienceMetricBadge
               icon={<UserRound size={14} className="text-indigo-200" />}
               value={`${PORTFOLIO_DATA.profile.yearsPersonal}`}
               label="ans perso"
@@ -211,12 +136,7 @@ export default function ExperiencePage() {
                 transition={{ duration: 0.22, ease: "easeOut" }}
                 className="transform-gpu will-change-transform"
               >
-                <ExperienceTimelineLeft
-                  items={filteredItems}
-                  selectedId={resolvedSelectedId}
-                  onSelect={handleSelectExperience}
-                  viewMode={viewMode}
-                />
+                <ExperienceTimelineLeft items={filteredItems} selectedId={resolvedSelectedId} onSelect={handleSelectExperience} viewMode={viewMode} />
               </motion.div>
             </AnimatePresence>
           </div>
@@ -225,77 +145,8 @@ export default function ExperiencePage() {
           </div>
         </div>
 
-        <AnimatePresence>
-          {mobileSheetOpen && selectedItem && (
-            <div className="fixed inset-0 z-40 lg:hidden">
-              <button
-                aria-label="Fermer le panneau detail experience"
-                className="absolute inset-0 bg-black/55 backdrop-blur-[1px]"
-                onClick={() => setMobileSheetOpen(false)}
-              />
-              <motion.div
-                initial={{ y: "100%" }}
-                animate={{ y: 0 }}
-                exit={{ y: "100%" }}
-                transition={{ type: "spring", stiffness: 260, damping: 28 }}
-                className="absolute inset-x-0 bottom-0 max-h-[82dvh] overflow-y-auto rounded-t-[24px] border border-white/12 bg-[#0A1528]/96 p-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-              >
-                <div className="mb-2 flex items-center justify-between">
-                  <div className="text-sm font-semibold text-white/80">Details experience</div>
-                  <button
-                    onClick={() => setMobileSheetOpen(false)}
-                    className="rounded-lg border border-white/15 bg-black/20 p-2 text-white/75"
-                    aria-label="Fermer"
-                  >
-                    <X size={16} />
-                  </button>
-                </div>
-                <ExperienceDetailsRight details={selectedItem} />
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
+        <ExperienceMobileSheet open={mobileSheetOpen} onClose={() => setMobileSheetOpen(false)} selectedItem={selectedItem} />
       </div>
     </section>
-  );
-}
-
-function MetricBadge({
-  icon,
-  value,
-  label,
-  tone,
-  delay = 0,
-}: {
-  icon: React.ReactNode;
-  value: string;
-  label: string;
-  tone: "cyan" | "emerald" | "indigo";
-  delay?: number;
-}) {
-  const toneClass =
-    tone === "cyan"
-      ? "border-cyan-300/28 bg-cyan-300/10"
-      : tone === "emerald"
-        ? "border-emerald-300/28 bg-emerald-300/10"
-        : "border-indigo-300/28 bg-indigo-300/10";
-
-  return (
-    <motion.div
-      initial={{ y: 12, scale: 0.96 }}
-      animate={{ y: 0, scale: 1 }}
-      transition={{ duration: 0.28, ease: "easeOut", delay }}
-      whileHover={{ y: -1 }}
-      className={["transform-gpu will-change-transform rounded-xl border px-2 py-2 backdrop-blur-sm sm:px-3 sm:py-2.5", toneClass].join(" ")}
-    >
-      <div className="flex items-center gap-1.5 text-white/75">
-        {icon}
-        <span className="text-[10px] uppercase tracking-wide">Stats</span>
-      </div>
-      <div className="mt-1 flex items-end gap-1">
-        <span className="text-lg font-semibold leading-none text-white/92 sm:text-xl">{value}</span>
-        <span className="text-[11px] text-white/72 sm:text-xs">{label}</span>
-      </div>
-    </motion.div>
   );
 }

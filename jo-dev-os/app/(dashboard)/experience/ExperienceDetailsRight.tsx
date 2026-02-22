@@ -2,7 +2,7 @@
 
 import { BriefcaseBusiness, Link2, MapPin, Play } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ExperienceRecord } from "./ExperienceTimelineLeft";
+import type { ExperienceRecord } from "./types";
 
 const BAR_COLORS: Record<string, string> = {
   Delivery: "from-emerald-200 via-cyan-200 to-emerald-100",

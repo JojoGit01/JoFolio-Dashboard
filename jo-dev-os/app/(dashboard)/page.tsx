@@ -12,6 +12,7 @@ export default function HomePage() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [focusSyncTick, setFocusSyncTick] = useState(0);
   const [active, setActiveState] = useState<CardId>(() => {
     if (typeof window === "undefined") return "building";
 
@@ -37,8 +38,10 @@ export default function HomePage() {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
+  const requestFocusSync = () => setFocusSyncTick((prev) => prev + 1);
+
   return (
-    <div className="relative min-h-full">
+    <div className="relative min-h-full pb-6 pt-1 sm:pb-8 sm:pt-2">
       {/* Background Home */}
       <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-95"
@@ -51,9 +54,9 @@ export default function HomePage() {
       />
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.45)_62%,rgba(0,0,0,0.85)_100%)]" />
 
-      <div className="grid grid-cols-12 gap-6 lg:gap-10">
-        <HomeLeft active={active} setActive={setActive} />
-        <HomeRight active={active} setActive={setActive} />
+      <div className="grid grid-cols-12 gap-4 sm:gap-6 lg:gap-10">
+        <HomeLeft active={active} setActive={setActive} requestFocusSync={requestFocusSync} />
+        <HomeRight active={active} setActive={setActive} focusSyncTick={focusSyncTick} />
       </div>
     </div>
   );

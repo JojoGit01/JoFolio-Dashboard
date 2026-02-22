@@ -2,38 +2,7 @@
 
 import { MapPin } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
-
-export type ExperienceKind = "CDI" | "FREELANCE" | "STAGE" | "PERSO";
-export type ExperienceViewMode = "timeline" | "cards";
-
-export type ExperienceRecord = {
-  id: string;
-  role: string;
-  period: string;
-  timelineLabel: string;
-  badge: string;
-  kind: ExperienceKind;
-  org: string;
-  city: string;
-  impacts: string[];
-  stack: string[];
-  highlights: {
-    delivery: number;
-    backend: number;
-    apiPerf: number;
-    security: number;
-  };
-  metrics: {
-    deliveryGainPercent: number;
-    automationGainPercent: number;
-    reliabilityGainPercent: number;
-    costReductionPercent: number;
-    usersImpacted: number;
-    projectsCount: number;
-  };
-  projects: { id: string; title: string; status: "PROD" | "DEV" }[];
-  featured?: boolean;
-};
+import type { ExperienceKind, ExperienceRecord, ExperienceViewMode } from "./types";
 
 const KIND_STYLE: Record<ExperienceKind, string> = {
   CDI: "border-cyan-300/35 bg-cyan-300/10 text-cyan-100",

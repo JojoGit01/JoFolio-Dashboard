@@ -155,10 +155,10 @@ export default function Sidebar() {
             </div>
 
             <div className="leading-tight">
-              <div className="text-[18px] font-semibold tracking-wide text-white/90">
+              <div className="font-display text-[18px] font-semibold tracking-wide text-white/90">
                 Jo Dev OS
               </div>
-              <div className="text-[11px] text-white/45">Dashboard</div>
+              <div className="font-data text-[11px] text-white/45">Dashboard</div>
             </div>
           </div>
         </div>
@@ -181,14 +181,14 @@ export default function Sidebar() {
               </div>
             </div>
 
-            <div className="mt-4 text-[16px] font-semibold text-white/90">
+            <div className="font-display mt-4 text-[16px] font-semibold text-white/90">
               Jo Di Martino
             </div>
             <div className="mt-1 text-[11px] tracking-wide text-white/55">
               Full-Stack JS Developer
             </div>
 
-            <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[10px] text-white/60">
+            <div className="font-data mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[10px] text-white/60">
               <span className="h-2 w-2 rounded-full bg-[#7fd4ff] shadow-[0_0_12px_rgba(127,212,255,0.5)]" />
               Disponible CDI / Freelance
             </div>
@@ -295,7 +295,7 @@ export default function Sidebar() {
 
                   <span
                     className={[
-                      "truncate pt-[1px] leading-none",
+                      "font-display truncate pt-[1px] leading-none tracking-[0.01em]",
                       isActive ? "font-semibold" : "font-medium",
                     ].join(" ")}
                   >

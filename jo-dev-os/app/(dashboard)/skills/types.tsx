@@ -5,6 +5,8 @@ export type CategoryKey = "frontend" | "backend" | "tools" | "others";
 export type AccentKey = "green" | "blue" | "purple" | "yellow";
 export type RoleKey = "frontend_lead" | "full_stack" | "backend";
 export type ConfidenceLevel = "Core" | "Strong" | "Working";
+export type SkillSortKey = "impact" | "mastery" | "recent";
+export type ExposureLevel = "Prod" | "Side" | "Learning";
 
 export type Project = {
   id: string;
@@ -29,8 +31,10 @@ export type Skill = {
   experienceYears: number;
   levelLabel: "Beginner" | "Intermediate" | "Advanced" | "Expert";
   confidence: ConfidenceLevel;
+  exposure: ExposureLevel;
   roles: RoleKey[];
   tags?: string[];
+  useCases?: string[];
   projects?: Project[];
   proofs?: SkillProof[];
 
