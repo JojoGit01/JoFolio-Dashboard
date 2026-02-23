@@ -38,7 +38,7 @@ export function SkillsAdditionalPanel({ additionalOpen, setAdditionalOpen, title
             initial={reduceMotion ? false : { height: 0, y: 6, opacity: 0.98 }}
             animate={reduceMotion ? undefined : { height: "auto", y: 0, opacity: 1 }}
             exit={reduceMotion ? undefined : { height: 0, y: -4, opacity: 0.98 }}
-            transition={reduceMotion ? undefined : { duration: 0.26, ease: [0.2, 0.8, 0.2, 1] }}
+            transition={reduceMotion ? undefined : { duration: 0.26, ease: "easeOut" as const }}
             className="mt-3 overflow-hidden rounded-[16px] border border-white/10 bg-[#081326]/68 backdrop-blur-md"
           >
             <motion.div
@@ -149,7 +149,7 @@ function ProgressRow({ percent }: { percent: number }) {
             ? undefined
             : {
                 duration: 0.42,
-                ease: [0.2, 0.8, 0.2, 1],
+                ease: "easeOut" as const,
               }
         }
         className="h-full rounded-full"

@@ -73,14 +73,14 @@ export default function SkillsPage() {
             className="pointer-events-none absolute left-3 right-20 top-2 z-10 h-px rounded-full bg-gradient-to-r from-transparent via-[#7fd4ff]/65 to-transparent"
             initial={{ scaleX: 0.15, x: -20 }}
             animate={{ scaleX: 1, x: 0 }}
-            transition={{ duration: 0.45, ease: [0.2, 0.8, 0.2, 1] }}
+            transition={{ duration: 0.45, ease: "easeOut" as const }}
             style={{ transformOrigin: "left" }}
           />
           <motion.span
             className="pointer-events-none absolute right-6 top-6 z-10 h-14 w-[2px] rounded-full bg-gradient-to-b from-transparent via-[#7fd4ff]/55 to-transparent"
             initial={{ scaleY: 0.2 }}
             animate={{ scaleY: 1 }}
-            transition={{ duration: 0.38, delay: 0.06, ease: "easeOut" }}
+            transition={{ duration: 0.38, delay: 0.06, ease: "easeOut" as const }}
             style={{ transformOrigin: "top" }}
           />
         </>
@@ -89,7 +89,7 @@ export default function SkillsPage() {
       <motion.div
         initial={reduceMotion ? false : { y: 12, scale: 0.996 }}
         animate={reduceMotion ? undefined : { y: 0, scale: 1 }}
-        transition={reduceMotion ? undefined : { duration: 0.26, ease: [0.2, 0.8, 0.2, 1] }}
+        transition={reduceMotion ? undefined : { duration: 0.26, ease: "easeOut" as const }}
       >
         <SkillsCategoryCards
           categories={CATEGORIES}
@@ -109,7 +109,7 @@ export default function SkillsPage() {
         <motion.div
           initial={reduceMotion ? false : { y: 14, x: -4, scale: 0.997 }}
           animate={reduceMotion ? undefined : { y: 0, x: 0, scale: 1 }}
-          transition={reduceMotion ? undefined : { duration: 0.3, delay: 0.05, ease: [0.2, 0.8, 0.2, 1] }}
+          transition={reduceMotion ? undefined : { duration: 0.3, delay: 0.05, ease: "easeOut" as const }}
           className="col-span-12 xl:col-span-8"
         >
           <SkillsSectionHeader
@@ -138,7 +138,7 @@ export default function SkillsPage() {
         <motion.div
           initial={reduceMotion ? false : { y: 14, x: 6, scale: 0.997 }}
           animate={reduceMotion ? undefined : { y: 0, x: 0, scale: 1 }}
-          transition={reduceMotion ? undefined : { duration: 0.3, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }}
+          transition={reduceMotion ? undefined : { duration: 0.3, delay: 0.1, ease: "easeOut" as const }}
           className="col-span-12 hidden xl:col-span-4 xl:block"
         >
           <SkillsDetailsPanel selectedSkill={selectedSkill} skillsByCategory={skillsByCategory} setSelectedId={setSelectedId} accentKey={activeCat.accent} />

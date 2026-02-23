@@ -37,7 +37,7 @@ export function SkillsGrid({
           y: 0,
           scale: 1,
           opacity: 1,
-          transition: { duration: 0.2, ease: [0.2, 0.8, 0.2, 1] },
+          transition: { duration: 0.2, ease: "easeOut" as const },
         },
       };
 
@@ -125,7 +125,7 @@ export function SkillsGrid({
                       ? undefined
                       : {
                           duration: 0.5,
-                          ease: [0.2, 0.8, 0.2, 1],
+                          ease: "easeOut" as const,
                           delay: 0.03,
                         }
                   }

@@ -35,7 +35,7 @@ export function SkillsCategoryCards({
           y: 0,
           scale: 1,
           opacity: 1,
-          transition: { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] },
+          transition: { duration: 0.28, ease: "easeOut" as const },
         },
       };
 
@@ -94,7 +94,7 @@ export function SkillsCategoryCards({
                 className={["h-full rounded-full bg-gradient-to-r transition-all", isActive ? catAccent.strip : "from-white/15 to-white/5"].join(" ")}
                 initial={false}
                 animate={{ width: isActive ? "76%" : "46%" }}
-                transition={reduceMotion ? undefined : { duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
+                transition={reduceMotion ? undefined : { duration: 0.28, ease: "easeOut" as const }}
               />
             </div>
           </motion.button>

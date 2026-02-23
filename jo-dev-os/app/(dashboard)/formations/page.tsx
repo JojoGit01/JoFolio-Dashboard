@@ -18,7 +18,7 @@ import {
 } from "./components/FormationViews";
 
 export default function FormationsPage() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion() ?? false;
   const [viewMode, setViewMode] = useState<"track" | "list">("track");
   const nodes = useMemo(() => buildFormationNodes(), []);
 

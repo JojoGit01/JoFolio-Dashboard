@@ -36,7 +36,7 @@ export function SkillsDetailsPanel({
           initial={reduceMotion ? false : { y: 10, scale: 0.992 }}
           animate={reduceMotion ? undefined : { y: 0, scale: 1 }}
           exit={reduceMotion ? undefined : { y: -8, scale: 0.996 }}
-          transition={reduceMotion ? undefined : { duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}
+          transition={reduceMotion ? undefined : { duration: 0.24, ease: "easeOut" as const }}
           className="relative"
         >
           <SkillsDetailsContent
@@ -120,7 +120,7 @@ export function SkillsDetailsContent({
                 ? undefined
                 : {
                     duration: 0.45,
-                    ease: [0.2, 0.8, 0.2, 1],
+                    ease: "easeOut" as const,
                   }
             }
             style={{
